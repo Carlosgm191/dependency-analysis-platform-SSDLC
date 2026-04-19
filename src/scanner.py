@@ -2,7 +2,7 @@ import argparse
 import json
 import subprocess
 from datetime import datetime
-from parser import calculate_custom_risk_score, normalize_tool_report
+from .parser import calculate_custom_risk_score, normalize_tool_report
 
 def determine_risk_level(vulnerabilities):
     severities = {v.get("severity", "LOW").upper() for v in vulnerabilities}

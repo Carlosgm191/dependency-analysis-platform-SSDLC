@@ -11,31 +11,53 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: "3.10"
+
       - name: Install audit tools
         run: |
           pip install pip-audit
+
       - name: Run pip-audit and save JSON
         run: |
           pip-audit -f json > pip_audit.json
-      - name: Fail on critical vulnerabilities
+
+      - name: Fail on high or critical vulnerabilities
         run: |
           python - <<'PY'
           import json
           data = json.load(open('pip_audit.json'))
-          critical = [i for i in data if i.get('advisory', {}).get('severity', '').upper() == 'CRITICAL']
-          if critical:
-              print(f"Found {len(critical)} critical vulnerabilities")
+          deps = data.get('dependencies', data if isinstance(data, list) else [])
+          vuln_items = []
+          for dep in deps:
+              for vuln in dep.get('vulns', []):
+                  severity = vuln.get('severity')
+                  if not severity:
+                      vid = vuln.get('id', '').upper()
+                      if vid.startswith('CVE-') or vid.startswith('PYSEC-'):
+                          severity = 'HIGH'
+                      else:
+                          severity = 'LOW'
+                  if severity.upper() in ('HIGH', 'CRITICAL'):
+                      vuln_items.append(vuln)
+          if vuln_items:
+              print(f"Found {len(vuln_items)} high/critical vulnerabilities")
               raise SystemExit(1)
           PY
+
+      - name: Run DAP scanner
+        run: |
+          python src/scanner.py --requirements requirements.txt
+          cat db_scan_results.json
 
   semgrep-security-scan:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+
       - name: Run Semgrep
         uses: returntocorp/semgrep-action@v1
         with:
