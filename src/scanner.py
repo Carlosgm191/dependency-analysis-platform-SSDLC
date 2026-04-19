@@ -56,7 +56,6 @@ def build_report(vulnerabilities):
         "status": "FAILED" if vulnerabilities else "PASSED",
         "critical_issues": risk_data["critical_issues"],
         "vulnerability_summary": summary,
-        "status": "FAILED" if vulnerabilities else "PASSED",
         "details": vulnerabilities,
     }
 
