@@ -13,6 +13,17 @@ The project is architected across three fundamental pillars, mirroring a mature 
 
 ---
 
+## 📊 Milestone 2: Evidence Dashboard
+
+| Goal | Evidence Type | Verification |
+| :--- | :--- | :--- |
+| **Active Repo** | Git History | [View Commits](https://github.com/your-username/your-repo/commits/main) |
+| **Functional Scanner** | Local CLI | Run `python src/scanner.py` to see JSON output. |
+| **Vulnerability Scoring** | Algorithm | Check `weighted_risk_score` in `db_scan_results.json`. |
+| **SAST Integration** | Pipeline | Check GitHub Actions tab for Semgrep results. |
+| **Secret Scanning** | Pipeline | Check GitHub Actions tab for TruffleHog logs. |
+| **Threat Analysis** | Documentation | Refer to [docs/THREAT_MODEL.md](./docs/THREAT_MODEL.md). |
+
 ## System Architecture & 3-Layer Implementation
 
 ### Layer 1: Core Scanner & Parser
