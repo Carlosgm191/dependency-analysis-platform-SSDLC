@@ -1,6 +1,6 @@
 # Dependency Analysis Platform (DAP)
 
-[![DevSecOps Pipeline](https://github.com/your-username/your-repo-name/actions/workflows/security-pipeline.yml/badge.svg)](https://github.com/your-username/your-repo-name/actions)
+[![DevSecOps Pipeline](https://github.com/Carlosgm191/dependency-analysis-platform-SSDLC/actions/workflows/security.yml/badge.svg)]
 ![Python Version](https://img.shields.io/badge/python-3.9%2B-blue)
 
 ## Project Overview

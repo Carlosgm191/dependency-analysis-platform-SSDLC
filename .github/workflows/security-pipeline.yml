@@ -1,21 +1,42 @@
-name: DevSecOps SAST Pipeline
+name: DAP Security Pipeline
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [main]
   pull_request:
-    branches: [ "main" ]
+    branches: [main]
 
 jobs:
-  semgrep-security-scan:
-    name: Semgrep Analysis
+  dependency-scan:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout del código fuente
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+      - name: Install audit tools
+        run: |
+          pip install pip-audit
+      - name: Run pip-audit and save JSON
+        run: |
+          pip-audit -f json > pip_audit.json
+      - name: Fail on critical vulnerabilities
+        run: |
+          python - <<'PY'
+          import json
+          data = json.load(open('pip_audit.json'))
+          critical = [i for i in data if i.get('advisory', {}).get('severity', '').upper() == 'CRITICAL']
+          if critical:
+              print(f"Found {len(critical)} critical vulnerabilities")
+              raise SystemExit(1)
+          PY
 
-      - name: Ejecutar escaneo estático con Semgrep
+  semgrep-security-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Run Semgrep
         uses: returntocorp/semgrep-action@v1
         with:
           config: "p/default"
-          auditOn: push

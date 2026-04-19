@@ -1,0 +1,60 @@
+{
+    "project_name": "Dependency Analysis Platform",
+    "scan_date": "2026-04-19 19:25:45Z",
+    "weighted_risk_score": 28,
+    "risk_level": "RED",
+    "status": "FAILED",
+    "critical_issues": 0,
+    "vulnerability_summary": {
+        "CRITICAL": 0,
+        "HIGH": 4,
+        "MODERATE": 0,
+        "LOW": 0
+    },
+    "details": [
+        {
+            "id": "PYSEC-2019-179",
+            "package": "flask",
+            "version": "0.12",
+            "severity": "HIGH",
+            "description": "The Pallets Project Flask before 1.0 is affected by: unexpected memory usage. The impact is: denial of service. The attack vector is: crafted encoded JSON data. The fixed version is: 1. NOTE: this may overlap CVE-2018-1000656.",
+            "reference": null,
+            "state": "open",
+            "workflow_state": "open",
+            "created_at": "2026-04-19T19:25:45.109845Z"
+        },
+        {
+            "id": "PYSEC-2018-66",
+            "package": "flask",
+            "version": "0.12",
+            "severity": "HIGH",
+            "description": "The Pallets Project flask version Before 0.12.3 contains a CWE-20: Improper Input Validation vulnerability in flask that can result in Large amount of memory usage possibly leading to denial of service. This attack appear to be exploitable via Attacker provides JSON data in incorrect encoding. This vulnerability appears to have been fixed in 0.12.3. NOTE: this may overlap CVE-2019-1010083.",
+            "reference": null,
+            "state": "open",
+            "workflow_state": "open",
+            "created_at": "2026-04-19T19:25:45.109861Z"
+        },
+        {
+            "id": "PYSEC-2023-62",
+            "package": "flask",
+            "version": "0.12",
+            "severity": "HIGH",
+            "description": "Flask is a lightweight WSGI web application framework. When all of the following conditions are met, a response containing data intended for one client may be cached and subsequently sent by the proxy to other clients. If the proxy also caches `Set-Cookie` headers, it may send one client's `session` cookie to other clients. The severity depends on the application's use of the session and the proxy's behavior regarding cookies. The risk depends on all these conditions being met.  1. The application must be hosted behind a caching proxy that does not strip cookies or ignore responses with cookies. 2. The application sets `session.permanent = True` 3. The application does not access or modify the session at any point during a request. 4. `SESSION_REFRESH_EACH_REQUEST` enabled (the default). 5. The application does not set a `Cache-Control` header to indicate that a page is private or should not be cached.  This happens because vulnerable versions of Flask only set the `Vary: Cookie` header when the session is accessed or modified, not when it is refreshed (re-sent to update the expiration) without being accessed or modified. This issue has been fixed in versions 2.3.2 and 2.2.5.",
+            "reference": null,
+            "state": "open",
+            "workflow_state": "open",
+            "created_at": "2026-04-19T19:25:45.109866Z"
+        },
+        {
+            "id": "CVE-2026-27205",
+            "package": "flask",
+            "version": "0.12",
+            "severity": "HIGH",
+            "description": "When the `session` object is accessed, Flask should set the `Vary: Cookie` header. This instructs caches not to cache the response, as it may contain information specific to a logged in user. This is handled in most cases, but some forms of access such as the Python `in` operator were overlooked.  The severity depends on the application's use of the session, and the cache's behavior regarding cookies. The risk depends on all these conditions being met.  1. The application must be hosted behind a caching proxy that does not ignore responses with cookies. 2. The application does not set a `Cache-Control` header to indicate that a page is private or should not be cached. 3. The application accesses the session in a way that does not access the values, only the keys, and does not mutate the session.",
+            "reference": null,
+            "state": "open",
+            "workflow_state": "open",
+            "created_at": "2026-04-19T19:25:45.109870Z"
+        }
+    ]
+}
