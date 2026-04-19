@@ -66,16 +66,10 @@ pip install pip-audit
 3. Run the scanner:
 
 ```bash
-python src/scanner.py
+python -m src.scanner
 ```
 
-4. For a real vulnerability test case:
-
-```bash
-python src/scanner.py --requirements test-vulnerable-requirements.txt
-```
-
-5. Review the generated report.
+4. Review the generated report.
 
 ```bash
 cat db_scan_results.json
@@ -84,5 +78,5 @@ cat db_scan_results.json
 ## Real vulnerability demo
 Use the sample file `test-vulnerable-requirements.txt` to validate the scanner:
 ```bash
-python src/scanner.py --requirements test-vulnerable-requirements.txt
+python -m src.scanner --requirements test-vulnerable-requirements.txt
 ```
