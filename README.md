@@ -1,9 +1,11 @@
 # Dependency Analysis Platform (DAP)
 
-[![DevSecOps Pipeline](https://github.com/Carlosgm191/dependency-analysis-platform-SSDLC/actions/workflows/security.yml/badge.svg)]
+[![DevSecOps Pipeline](https://github.com/Carlosgm191/dependency-analysis-platform-SSDLC/actions/workflows/security.yml/badge.svg)](https://github.com/Carlosgm191/dependency-analysis-platform-SSDLC/actions/workflows/security.yml)
 ![Python Version](https://img.shields.io/badge/python-3.9%2B-blue)
 
 ## Project Overview
+
+This repository contains a working prototype for Milestone 2: a dependency vulnerability scanner with risk scoring and pipeline evidence.
 
 The **Dependency Analysis Platform (DAP)** is a security orchestration prototype that automates the ingestion, parsing, and prioritization of software vulnerabilities from dependency analysis tools. This project is built for the SSDLC course and demonstrates how to manage findings, calculate risk, and integrate security controls into a CI/CD pipeline.
 
@@ -49,22 +51,38 @@ Security checks are integrated into GitHub Actions.
 
 1. Create and activate a Python virtual environment:
 
+```bash
 python -m venv venv
 source venv/bin/activate
+```
 
 2. Install required tools:
 
+```bash
 pip install -r requirements.txt
 pip install pip-audit
+```
 
 3. Run the scanner:
 
+```bash
 python src/scanner.py
+```
 
 4. For a real vulnerability test case:
 
+```bash
 python src/scanner.py --requirements test-vulnerable-requirements.txt
+```
 
 5. Review the generated report.
 
+```bash
 cat db_scan_results.json
+```
+
+## Real vulnerability demo
+Use the sample file `test-vulnerable-requirements.txt` to validate the scanner:
+```bash
+python src/scanner.py --requirements test-vulnerable-requirements.txt
+```
