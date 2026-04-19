@@ -4,106 +4,67 @@
 ![Python Version](https://img.shields.io/badge/python-3.9%2B-blue)
 
 ## Project Overview
-The **Dependency Analysis Platform (DAP)** is a centralized security orchestration tool designed to bridge the gap between continuous integration and threat intelligence. Developed as part of the *Software Development Lifecycle Security* course, this platform automates the ingestion, parsing, and prioritization of software vulnerabilities across custom code and third-party dependencies.
 
-The project is architected across three fundamental pillars, mirroring a mature DevSecOps ecosystem:
-* **Layer 1: Core Functional Prototype** (SCA Engine & Data Parsing)
-* **Layer 2: SSDLC Integration** (Threat Modeling & Custom Risk Scoring)
-* **Layer 3: DevSecOps Automation** (CI/CD Quality Gates & Secret Scanning)
-
----
+The **Dependency Analysis Platform (DAP)** is a security orchestration prototype that automates the ingestion, parsing, and prioritization of software vulnerabilities from dependency analysis tools. This project is built for the SSDLC course and demonstrates how to manage findings, calculate risk, and integrate security controls into a CI/CD pipeline.
 
 ## 📊 Milestone 2: Evidence Dashboard
 
-| Goal | Evidence Type | Verification |
+| Goal | Evidence | Verification |
 | :--- | :--- | :--- |
-| **Active Repo** | Git History | [View Commits](https://github.com/your-username/your-repo/commits/main) |
-| **Functional Scanner** | Local CLI | Run `python src/scanner.py` to see JSON output. |
-| **Vulnerability Scoring** | Algorithm | Check `weighted_risk_score` in `db_scan_results.json`. |
-| **SAST Integration** | Pipeline | Check GitHub Actions tab for Semgrep results. |
-| **Secret Scanning** | Pipeline | Check GitHub Actions tab for TruffleHog logs. |
-| **Threat Analysis** | Documentation | Refer to [docs/THREAT_MODEL.md](./docs/THREAT_MODEL.md). |
+| **Active Repository** | Git History | [Commits](https://github.com/Carlosgm191/dependency-analysis-platform-SSDLC/commits/main) |
+| **Functional Scanner** | Local CLI | Run `python src/scanner.py` and inspect `db_scan_results.json` |
+| **Vulnerability Scoring** | Risk Report | `weighted_risk_score` and `risk_level` in `db_scan_results.json` |
+| **Dependency Scanning** | CI Job | `.github/workflows/security.yml` runs `pip-audit` |
+| **Static Analysis** | CI Job | `.github/workflows/security-pipeline.yml` runs `Semgrep` |
+| **Threat Modeling** | Documentation | See `docs/THREAT_MODEL.md` |
 
 ## System Architecture & 3-Layer Implementation
 
 ### Layer 1: Core Scanner & Parser
-The engine executes continuous Software Composition Analysis (SCA). It identifies known vulnerabilities in project dependencies by intersecting local manifests with global vulnerability databases.
-* **Dynamic Ingestion:** Extracts data from `requirements.txt`.
-* **Standardized Output:** Normalizes raw security advisories into a structured JSON database format for downstream analysis.
+The engine reads dependency manifests and normalizes vulnerability findings into a structured report.
+
+- **Input:** `requirements.txt` or imported JSON scan results
+- **Scanner:** executes `pip-audit`
+- **Parser:** converts tool output into standardized findings
+- **Output:** `db_scan_results.json`
 
 ### Layer 2: SSDLC Security & Risk Scoring
-Security is embedded into the DAP's DNA. We incorporate a **STRIDE-based Threat Model** to safeguard the platform's data flow and implement a proprietary algorithm to calculate a **Weighted Risk Score**.
-* **Contextual Risk Categorization:** Instead of relying solely on generic CVSS scores, DAP computes a risk level (RED/GREEN) based on the volume and exploitability of critical exposures.
-* **Threat Resilience:** The architecture is designed to handle untrusted JSON inputs and mitigate tampering risks during the analysis phase.
+The platform enriches findings with risk scoring and tracking metadata.
 
-### Layer 3: DevSecOps & CI/CD Guardrails
-The DAP repository operates under strict security policies enforced via GitHub Actions, serving as a "living example" of a secure pipeline.
-* **Hardcoded Secrets Detection:** Powered by *TruffleHog* to prevent API keys or credentials leakage within the source code.
-* **Static Application Security Testing (SAST):** Powered by *Semgrep* to analyze Python source code against common OWASP Top 10 vulnerabilities.
+- **Risk scoring:** converts severities into a `weighted_risk_score`
+- **Risk levels:** `GREEN`, `YELLOW`, `RED`
+- **Vulnerability states:** `open`, `in_progress`, `resolved`
+- **Threat model:** documented in `docs/THREAT_MODEL.md`
+
+### Layer 3: DevSecOps Automation
+Security checks are integrated into GitHub Actions.
+
+- **Dependency scanning:** `pip-audit`
+- **Static scanning:** `Semgrep`
+- **Quality gate:** pipeline is configured to fail when findings indicate serious risk
 
 ---
 
-## Detailed Implementation Breakdown
+## How to Run
 
-### 🔧 Core Implementation (Step 2: Functional Prototype)
-The primary engine, located in `src/scanner.py`, follows a strict functional flow:
-1.  **Ingestion:** Reads the `requirements.txt` manifest.
-2.  **Audit:** Triggers an automated scan against the PyPA (Python Packaging Advisory) database.
-3.  **Risk Calculation:** The engine applies the following weighting logic:
-    * **CRITICAL:** 10 points
-    * **HIGH:** 7 points
-    * **MODERATE:** 4 points
-4.  **Reporting:** Generates a `db_scan_results.json` file for historical tracking.
+1. Create and activate a Python virtual environment:
 
-### Automation Workflow (Step 3: Security Pipeline)
-The pipeline is defined in `.github/workflows/security-pipeline.yml`. It ensures that the code meets the following security standards before merging:
+python -m venv venv
+source venv/bin/activate
 
-```yaml
-# Simplified Pipeline View
-jobs:
-  security-checks:
-    steps:
-      - name: Secret Scan (TruffleHog)
-        # Prevents leaking API Keys/Passwords
-      - name: Code Analysis (Semgrep)
-        # Checks for SQLi, XSS, and insecure OS calls
-      - name: Dependency Audit (pip-audit)
-        # Checks the project's own dependencies
+2. Install required tools:
 
-## Getting Started
+pip install -r requirements.txt
+pip install pip-audit
 
-Follow these instructions to set up the platform locally and execute your first security audit.
+3. Run the scanner:
 
-### Prerequisites
-* **Python 3.9+**: Ensure Python is installed (`python --version`).
-* **Git**: Required for version control and pipeline triggers.
-* **Virtual Environment**: Recommended to avoid dependency conflicts.
-
-### Installation & Setup
-1.  **Clone the Repository:**
-    ```bash
-    git clone [https://github.com/your-username/your-repo.git](https://github.com/your-username/your-repo.git)
-    cd your-repo
-    ```
-
-2.  **Initialize Environment:**
-    Create and activate a virtual environment to manage security tooling.
-    ```bash
-    python -m venv venv
-    # On Windows:
-    venv\Scripts\activate
-    # On macOS/Linux:
-    source venv/bin/activate
-    ```
-
-3.  **Deploy Dependencies:**
-    Install the core analysis engine and the required audit tools.
-    ```bash
-    pip install -r requirements.txt
-    pip install pip-audit  # Primary SCA tool
-    ```
-
-### Running a Local Security Audit
-To demonstrate the **Layer 1** functionality, execute the main scanner. This will parse your `requirements.txt`, query vulnerability databases, and generate a prioritized report.
-```bash
 python src/scanner.py
+
+4. For a real vulnerability test case:
+
+python src/scanner.py --requirements test-vulnerable-requirements.txt
+
+5. Review the generated report.
+
+cat db_scan_results.json
