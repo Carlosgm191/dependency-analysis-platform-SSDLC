@@ -1,7 +1,7 @@
 import argparse
 import json
 import subprocess
-from datetime import datetime
+from datetime import datetime, UTC
 from .parser import calculate_custom_risk_score, normalize_tool_report
 
 def determine_risk_level(vulnerabilities):
@@ -13,11 +13,36 @@ def determine_risk_level(vulnerabilities):
     return "GREEN"
 
 def run_pipaudit_scan(requirements_file):
-    result = subprocess.run(
-        ['pip-audit', '-r', requirements_file, '-f', 'json'],
-        capture_output=True, text=True
-    )
-    raw = json.loads(result.stdout or "[]")
+    try:
+        result = subprocess.run(
+            ['pip-audit', '-r', requirements_file, '-f', 'json'],
+            capture_output=True,
+            text=True,
+            timeout=60
+        )
+    except FileNotFoundError:
+        print("[!] pip-audit is not installed or not available in PATH.")
+        return []
+    except subprocess.TimeoutExpired:
+        print("[!] pip-audit scan timed out.")
+        return []
+
+    stdout = result.stdout or ""
+    stderr = (result.stderr or "").strip()
+
+    if not stdout.strip():
+        if result.returncode != 0:
+            print(f"[!] pip-audit failed (exit={result.returncode}): {stderr or 'No stderr output'}")
+        return []
+
+    try:
+        raw = json.loads(stdout)
+    except json.JSONDecodeError:
+        print(f"[!] Invalid JSON from pip-audit (exit={result.returncode}).")
+        if stderr:
+            print(f"[!] pip-audit stderr: {stderr}")
+        return []
+
     if not isinstance(raw, (list, dict)):
         print("[!] Unexpected pip-audit output:", raw)
         return []
@@ -50,7 +75,7 @@ def build_report(vulnerabilities):
 
     return {
         "project_name": "Dependency Analysis Platform",
-        "scan_date": datetime.utcnow().strftime("%Y-%m-%d %H:%M:%SZ"),
+        "scan_date": datetime.now(UTC).strftime("%Y-%m-%d %H:%M:%SZ"),
         "weighted_risk_score": risk_data["weighted_score"],
         "risk_level": determine_risk_level(vulnerabilities),
         "status": "FAILED" if vulnerabilities else "PASSED",
