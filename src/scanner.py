@@ -1,7 +1,7 @@
 import argparse
 import json
 import subprocess
-from datetime import datetime, UTC
+from datetime import datetime, timezone
 from .parser import calculate_custom_risk_score, normalize_tool_report
 
 def determine_risk_level(vulnerabilities):
@@ -60,7 +60,7 @@ def enrich_vulnerabilities(vulnerabilities):
             continue
         vuln.setdefault("state", "open")
         vuln.setdefault("workflow_state", "open")
-        vuln.setdefault("created_at", datetime.utcnow().isoformat() + "Z")
+        vuln.setdefault("created_at", datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"))
         enriched.append(vuln)
     return enriched
 
@@ -75,7 +75,7 @@ def build_report(vulnerabilities):
 
     return {
         "project_name": "Dependency Analysis Platform",
-        "scan_date": datetime.now(UTC).strftime("%Y-%m-%d %H:%M:%SZ"),
+        "scan_date": datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%SZ"),
         "weighted_risk_score": risk_data["weighted_score"],
         "risk_level": determine_risk_level(vulnerabilities),
         "status": "FAILED" if vulnerabilities else "PASSED",
