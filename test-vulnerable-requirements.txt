@@ -1,1 +1,0 @@
-Flask==0.12.0 # Vulnerable version of Flask (dic/2016)

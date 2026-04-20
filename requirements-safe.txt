@@ -1,0 +1,3 @@
+# This file lists the dependencies for the project with specific versions to ensure a safe and consistent environment.
+requests==2.33.0
+Flask==3.1.3
