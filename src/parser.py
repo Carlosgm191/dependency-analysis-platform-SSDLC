@@ -1,10 +1,27 @@
 def infer_severity(vuln):
     if not vuln:
         return "LOW"
-    vuln_id = vuln.get("id", "").upper()
-    if vuln_id.startswith("CVE-"):
-        return "HIGH"
-    if vuln_id.startswith("PYSEC-"):
+
+    cvss_score = vuln.get("cvss")
+    if isinstance(cvss_score, (int, float)):
+        if cvss_score >= 9.0:
+            return "CRITICAL"
+        if cvss_score >= 7.0:
+            return "HIGH"
+        if cvss_score >= 4.0:
+            return "MODERATE"
+        return "LOW"
+
+    aliases = vuln.get("aliases", [])
+    if isinstance(aliases, list):
+        normalized_aliases = [str(alias).upper() for alias in aliases]
+        if any(alias.startswith("CVE-") for alias in normalized_aliases):
+            return "HIGH"
+        if any(alias.startswith("GHSA-") for alias in normalized_aliases):
+            return "HIGH"
+
+    vuln_id = str(vuln.get("id", "")).upper()
+    if vuln_id.startswith("CVE-") or vuln_id.startswith("PYSEC-") or vuln_id.startswith("GHSA-"):
         return "HIGH"
     return "MODERATE"
 
