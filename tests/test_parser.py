@@ -21,4 +21,4 @@ def test_normalize_pipaudit_dependencies():
 def test_calculate_custom_risk_score_high():
     result = calculate_custom_risk_score([{"severity": "HIGH"}])
     assert result["weighted_score"] == 7
-    assert result["risk_level"] == "YELLOW"
+    assert result["risk_level"] == "RED"

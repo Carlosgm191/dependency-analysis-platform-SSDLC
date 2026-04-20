@@ -93,7 +93,7 @@ def calculate_custom_risk_score(vulnerabilities):
             total_score += 1
 
     return {
-        "risk_level": "RED" if critical_count > 0 else ("YELLOW" if high_count > 0 else "GREEN"),
+        "risk_level": "RED" if (critical_count > 0 or high_count > 0) else "GREEN",
         "weighted_score": total_score,
         "critical_issues": critical_count,
     }
