@@ -56,27 +56,45 @@ python -m venv venv
 source venv/bin/activate
 ```
 
-2. Install required tools:
+2. Install  dependencies:
 
 ```bash
 pip install -r requirements.txt
-pip install pip-audit
 ```
 
-3. Run the scanner:
+3. Run the scanner with the default requirement (`requirements.txt`):
 
 ```bash
 python -m src.scanner
 ```
 
-4. Review the generated report.
+4. (Optional) Scan a specific requirements file:
 
+```bash
+python -m src.scanner --requirements requirements-vuln-classic.txt
+```
+
+5. (Optional) Import an existing JSON report instead of running `pip-audit`:
+
+```bash
+python -m src.scanner --input-json path/to/report.json --input-type pipaudit
+python -m src.scanner --input-json path/to/semgrep.json --input-type semgrep
+```
+
+6. Review the generated report:
 ```bash
 cat db_scan_results.json
 ```
 
-## Real vulnerability demo
-Use the sample file `test-vulnerable-requirements.txt` to validate the scanner:
+## Real vulnerability demos
+Use the included sample manifests to validate behavior:
 ```bash
-python -m src.scanner --requirements test-vulnerable-requirements.txt
+# Expected low/no findings profile
+python -m src.scanner --requirements requirements-safe.txt
+
+# Mixed profile
+python -m src.scanner --requirements requirements-mixed.txt
+
+# Intentionally vulnerable profile
+python -m src.scanner --requirements requirements-vuln-classic.txt
 ```
