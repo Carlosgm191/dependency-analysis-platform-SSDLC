@@ -1,0 +1,15 @@
+{ "_comentario": "python -m src.scanner --input-json docs/examples/semgrep-sample.json --input-type semgrep",
+  "results": [
+    {
+      "check_id": "python.lang.security.audit.dangerous-subprocess-use",
+      "path": "src/example.py",
+      "extra": {
+        "severity": "HIGH",
+        "message": "Untrusted input passed to subprocess",
+        "metadata": {
+          "reference": "https://semgrep.dev/r/python.lang.security.audit.dangerous-subprocess-use"
+        }
+      }
+    }
+  ]
+}
