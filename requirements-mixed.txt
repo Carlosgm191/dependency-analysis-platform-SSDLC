@@ -1,4 +1,4 @@
-# This file lists the project dependencies with a mix of safe and vulnerable versions
+# This file lists the project dependencies with a mix of safe and vulnerable versions (requirements-mixed.txt)
 Django==2.2.0
 urllib3==1.25.8
 Jinja2==2.10.1
