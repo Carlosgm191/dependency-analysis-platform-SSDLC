@@ -60,6 +60,7 @@ source venv/bin/activate
 
 ```bash
 pip install -r requirements.txt
+pip install pip-audit
 ```
 
 3. Run the scanner with the default requirement (`requirements.txt`):
