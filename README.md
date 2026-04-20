@@ -78,8 +78,7 @@ python -m src.scanner --requirements requirements-vuln-classic.txt
 5. (Optional) Import an existing JSON report instead of running `pip-audit`:
 
 ```bash
-python -m src.scanner --input-json path/to/report.json --input-type pipaudit
-python -m src.scanner --input-json path/to/semgrep.json --input-type semgrep
+python -m src.scanner --input-json docs/examples/semgrep-sample.json --input-type semgrep
 ```
 
 6. Review the generated report:
