@@ -50,7 +50,7 @@ jobs:
 
       - name: Run DAP scanner
         run: |
-          python src/scanner.py --requirements requirements.txt
+          python -m src.scanner --requirements requirements.txt
           cat db_scan_results.json
 
   semgrep-security-scan:
