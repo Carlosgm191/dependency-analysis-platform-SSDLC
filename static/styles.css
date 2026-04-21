@@ -244,3 +244,32 @@ tr {
 .sev-moderate {
   color: #facc15;
 }
+
+.scan-box {
+  background: #111;
+  padding: 20px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  color: white;
+}
+
+.scan-box input,
+.scan-box select {
+  display: block;
+  margin: 10px 0;
+  padding: 8px;
+  width: 100%;
+}
+
+.scan-btn {
+  background: #4CAF50;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  cursor: pointer;
+  border-radius: 6px;
+}
+
+.scan-btn:hover {
+  background: #45a049;
+}

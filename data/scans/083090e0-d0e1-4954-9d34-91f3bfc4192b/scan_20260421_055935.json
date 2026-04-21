@@ -1,0 +1,16 @@
+{
+  "project_name": "Dependency Analysis Platform",
+  "scan_date": "2026-04-21T05:59:35.745783",
+  "weighted_risk_score": 0,
+  "risk_level": "GREEN",
+  "status": "PASSED",
+  "critical_issues": 0,
+  "vulnerability_summary": {
+    "CRITICAL": 0,
+    "HIGH": 0,
+    "MODERATE": 0,
+    "LOW": 0
+  },
+  "details": [],
+  "scan_id": "20260421_055935"
+}

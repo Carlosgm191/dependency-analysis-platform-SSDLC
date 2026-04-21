@@ -1,28 +1,28 @@
 [
   {
-    "id": 1,
+    "id": "9096d00b-57cf-4da2-82eb-f812aff47f14",
     "full_name": "Prueba",
-    "email": "prueba@correo.com",
-    "phone": "3000000000",
+    "email": "prueba@correo.edu.co",
+    "phone": "30000000",
     "password": {
       "algorithm": "pbkdf2_sha256",
       "iterations": 200000,
-      "salt": "6394cf19447613c489e4052c507ca999",
-      "hash": "98bf46b280679f96b9e3f02edb0ba70afae26af46080e5ad8d72e7349e1bc9c6"
+      "salt": "bdf59fde2b328bf5b875b9bb0ea9a0f9",
+      "hash": "f4ca3da272f41e35610e62560ed903a04a5d6e7164c4f44e1ee4b013d27861fb"
     },
-    "created_at": "2026-04-20T21:37:27.153106"
+    "created_at": "2026-04-21T04:46:13.193090"
   },
   {
-    "id": 2,
-    "full_name": "dads",
-    "email": "correo@prueba.com",
-    "phone": "12817983712312",
+    "id": "083090e0-d0e1-4954-9d34-91f3bfc4192b",
+    "full_name": "nono",
+    "email": "nono@gmail.com",
+    "phone": "00000000000",
     "password": {
       "algorithm": "pbkdf2_sha256",
       "iterations": 200000,
-      "salt": "9f519186c7941caf22469e23467456b1",
-      "hash": "374166ef57862e00f4563e63ad333a5aab5874253b046ea28c207e4ad2bca048"
+      "salt": "a64f20ea2c82ae0f35bf96889bbd19e0",
+      "hash": "97d715440cc3d0191dc258929a7b97d5edd69cd24b836b587d95a545cd4be0fe"
     },
-    "created_at": "2026-04-20T21:55:32.679870"
+    "created_at": "2026-04-21T05:51:57.306341"
   }
 ]

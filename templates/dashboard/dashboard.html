@@ -1,21 +1,59 @@
-{% extends "base_app.html" %}
+{% if not data %}
 
-{% block content %}
+<div class="empty-state">
+  <h2>No hay datos todavía</h2>
+  <p>Ejecuta tu primer escaneo para ver resultados aquí.</p>
+</div>
 
-<h1>Security Dashboard</h1>
+{% endif %}
 
-<!-- RISK OVERVIEW -->
+
+<div class="scan-box">
+
+  <h2>🚀 Run Security Scan</h2>
+
+  <form action="{{ url_for('run_scan') }}"
+        method="post"
+        enctype="multipart/form-data">
+
+    <input type="file"
+           name="requirements_file"
+           accept=".txt,.json"
+           required>
+
+    <select name="input_type">
+      <option value="pipaudit">Pip Audit</option>
+      <option value="semgrep">Semgrep</option>
+    </select>
+
+    <button type="submit" class="scan-btn">
+      Run Scan
+    </button>
+
+  </form>
+
+</div>
+
+
+<!-- ========================= -->
+<!-- CURRENT SCAN -->
+<!-- ========================= -->
+
+{% if data %}
+
 <div class="risk-banner {{ data.risk_level|lower }}">
+
   <div>
     <h2>Risk Score: {{ data.weighted_risk_score }}</h2>
     <p>Status: {{ data.status }}</p>
   </div>
+
   <div class="risk-level">
     {{ data.risk_level }}
   </div>
+
 </div>
 
-<!-- SUMMARY CARDS -->
 <div class="summary-grid">
 
   <div class="summary-card critical">
@@ -35,7 +73,7 @@
 
 </div>
 
-<!-- TABLE -->
+
 <div class="table-container">
 
   <h2>Vulnerabilities</h2>
@@ -60,9 +98,47 @@
       </tr>
       {% endfor %}
     </tbody>
-
   </table>
 
 </div>
 
-{% endblock %}
+{% endif %}
+
+
+<!-- ========================= -->
+<!-- HISTORY -->
+<!-- ========================= -->
+
+<div class="history-box">
+
+  <h2>📜 Scan History</h2>
+
+  {% if scans and scans|length > 0 %}
+
+  <ul>
+
+    {% for scan in scans %}
+
+    <li>
+
+      <div>
+        <strong>{{ scan.scan_date }}</strong>
+        — {{ scan.risk_level }}
+      </div>
+
+      <!-- CAMBIO DE SCAN (NO RE-ESCANEA) -->
+      <a href="{{ url_for('dashboard', scan_id=scan.scan_id) }}">
+        👁 View
+      </a>
+
+    </li>
+
+    {% endfor %}
+
+  </ul>
+
+  {% else %}
+    <p>No scans yet</p>
+  {% endif %}
+
+</div>
