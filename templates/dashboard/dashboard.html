@@ -7,6 +7,44 @@
 
 {% endif %}
 
+<!-- ========================= -->
+
+<!-- HEADER / USER ACTIONS -->
+
+<!-- ========================= -->
+
+<div class="top-bar">
+
+  <h1>🛡️ Dashboard</h1>
+
+  <div class="actions">
+
+```
+<!-- 2FA STATUS -->
+{% if twofa_enabled %}
+  <span class="badge success">2FA Enabled</span>
+{% else %}
+  <span class="badge warning">2FA Disabled</span>
+  <a href="{{ url_for('setup_2fa') }}" class="btn-secondary">
+    🔐 Activate 2FA
+  </a>
+{% endif %}
+
+<!-- LOGOUT -->
+<form action="{{ url_for('logout') }}" method="post" style="display:inline;">
+  <button class="btn-danger">Logout</button>
+</form>
+```
+
+  </div>
+
+</div>
+
+<!-- ========================= -->
+
+<!-- SCAN BOX -->
+
+<!-- ========================= -->
 
 <div class="scan-box">
 
@@ -16,28 +54,25 @@
         method="post"
         enctype="multipart/form-data">
 
-    <input type="file"
-           name="requirements_file"
-           accept=".txt,.json"
-           required>
+```
+<input type="file"
+       name="requirements_file"
+       accept=".txt,.json"
+       required>
 
-    <select name="input_type">
-      <option value="pipaudit">Pip Audit</option>
-      <option value="semgrep">Semgrep</option>
-    </select>
+<select name="input_type">
+  <option value="pipaudit">Pip Audit</option>
+  <option value="semgrep">Semgrep</option>
+</select>
 
-    <button type="submit" class="scan-btn">
-      Run Scan
-    </button>
+<button type="submit" class="scan-btn">
+  Run Scan
+</button>
+```
 
   </form>
 
 </div>
-
-
-<!-- ========================= -->
-<!-- CURRENT SCAN -->
-<!-- ========================= -->
 
 {% if data %}
 
@@ -73,7 +108,6 @@
 
 </div>
 
-
 <div class="table-container">
 
   <h2>Vulnerabilities</h2>
@@ -88,57 +122,61 @@
       </tr>
     </thead>
 
-    <tbody>
-      {% for v in data.details[:20] %}
-      <tr class="sev-{{ v.severity|lower }}">
-        <td>{{ v.id }}</td>
-        <td>{{ v.package }}</td>
-        <td>{{ v.severity }}</td>
-        <td>{{ v.description[:120] }}...</td>
-      </tr>
-      {% endfor %}
-    </tbody>
+```
+<tbody>
+  {% for v in data.details[:20] %}
+  <tr class="sev-{{ v.severity|lower }}">
+    <td>{{ v.id }}</td>
+    <td>{{ v.package }}</td>
+    <td>{{ v.severity }}</td>
+    <td>{{ v.description[:120] }}...</td>
+  </tr>
+  {% endfor %}
+</tbody>
+```
+
   </table>
 
 </div>
 
 {% endif %}
 
-
 <!-- ========================= -->
+
 <!-- HISTORY -->
+
 <!-- ========================= -->
 
 <div class="history-box">
 
   <h2>📜 Scan History</h2>
 
-  {% if scans and scans|length > 0 %}
+{% if scans and scans|length > 0 %}
 
   <ul>
 
-    {% for scan in scans %}
+```
+{% for scan in scans %}
 
-    <li>
+<li>
 
-      <div>
-        <strong>{{ scan.scan_date }}</strong>
-        — {{ scan.risk_level }}
-      </div>
+  <div>
+    <strong>{{ scan.scan_date }}</strong>
+    — {{ scan.risk_level }}
+  </div>
 
-      <!-- CAMBIO DE SCAN (NO RE-ESCANEA) -->
-      <a href="{{ url_for('dashboard', scan_id=scan.scan_id) }}">
-        👁 View
-      </a>
+  <a href="{{ url_for('dashboard', scan_id=scan.scan_id) }}">
+    👁 View
+  </a>
 
-    </li>
+</li>
 
-    {% endfor %}
+{% endfor %}
+```
 
   </ul>
 
-  {% else %}
-    <p>No scans yet</p>
-  {% endif %}
+{% else %} <p>No scans yet</p>
+{% endif %}
 
 </div>

@@ -1,13 +1,27 @@
-from flask import Flask, render_template, request, redirect, url_for, session, abort
+from flask import Flask, render_template, request, redirect, url_for, session
 from datetime import datetime
 import json
 from pathlib import Path
 from functools import wraps
 import os
 import uuid
+import pyotp
+import qrcode
+import io
+import base64
 
-from encryption import hash_password, verify_password
+from encryption import (
+    hash_password,
+    verify_password,
+    derive_user_key,
+    encrypt_data,
+    decrypt_data,
+    encrypt_2fa_secret,
+    decrypt_2fa_secret
+)
+
 from validation import validate_login_form, validate_register_form
+
 from src.scanner_users import (
     run_pipaudit_scan,
     load_json_report,
@@ -66,16 +80,23 @@ def get_user_scans_dir(user_id):
 
 def load_user_scans(user_id):
     scans_dir = get_user_scans_dir(user_id)
-
     scans = []
+
+    key_hex = session.get("enc_key")
+    key = bytes.fromhex(key_hex) if key_hex else None
+
     for file in sorted(scans_dir.glob("scan_*.json")):
         try:
-            scan = json.loads(file.read_text())
+            raw = json.loads(file.read_text())
 
-            # 🔥 fallback si falta scan_id
+            if raw.get("encrypted") and key:
+                scan = decrypt_data(raw["data"], key)
+            else:
+                scan = raw
+
             scan.setdefault("scan_id", file.stem.replace("scan_", ""))
-
             scans.append(scan)
+
         except:
             continue
 
@@ -136,8 +157,54 @@ def login():
     if not valid:
         return render_template("auth/login.html", error="Invalid credentials", form={"email": email})
 
+    # 🔐 SI TIENE 2FA
+    if user.get("twofa_enabled"):
+        session["tmp_user"] = email_norm
+        session["tmp_password"] = password
+        return redirect(url_for("verify_2fa"))
+
+    # login normal
     session["user_email"] = email_norm
     session["user_id"] = user["id"]
+
+    key = derive_user_key(password, user["password"]["salt"])
+    session["enc_key"] = key.hex()
+
+    return redirect(url_for("dashboard"))
+
+
+# ------------------------
+# VERIFY 2FA LOGIN
+# ------------------------
+
+@app.route("/2fa/verify", methods=["GET", "POST"])
+def verify_2fa():
+    if request.method == "GET":
+        return render_template("auth/verify_2fa.html")
+
+    code = request.form.get("code")
+
+    email = session.get("tmp_user")
+    password = session.get("tmp_password")
+
+    users = load_json(USERS_PATH)
+    user = next(u for u in users if u["email"] == email)
+
+    secret = decrypt_2fa_secret(user["twofa_secret"])
+    totp = pyotp.TOTP(secret)
+
+    if not totp.verify(code):
+        return render_template("auth/verify_2fa.html", error="Invalid code")
+
+    # login final
+    session["user_email"] = email
+    session["user_id"] = user["id"]
+
+    key = derive_user_key(password, user["password"]["salt"])
+    session["enc_key"] = key.hex()
+
+    session.pop("tmp_user", None)
+    session.pop("tmp_password", None)
 
     return redirect(url_for("dashboard"))
 
@@ -180,6 +247,8 @@ def register():
         "email": email_norm,
         "phone": clean["phone"],
         "password": hash_password(clean["password"]),
+        "twofa_enabled": False,
+        "twofa_secret": None,
         "created_at": datetime.utcnow().isoformat()
     }
 
@@ -189,6 +258,60 @@ def register():
     get_user_scans_dir(new_id)
 
     return redirect(url_for("login", registered=1))
+
+
+# ------------------------
+# 2FA SETUP
+# ------------------------
+
+@app.route("/2fa/setup")
+@login_required
+def setup_2fa():
+    user = get_current_user()
+
+    secret = pyotp.random_base32()
+    session["temp_2fa_secret"] = secret
+
+    uri = pyotp.totp.TOTP(secret).provisioning_uri(
+        name=user["email"],
+        issuer_name="DependencyScanner"
+    )
+
+    img = qrcode.make(uri)
+    buffer = io.BytesIO()
+    img.save(buffer, format="PNG")
+    qr_base64 = base64.b64encode(buffer.getvalue()).decode()
+
+    return render_template("auth/setup_2fa.html", qr=qr_base64)
+
+
+@app.route("/2fa/verify-setup", methods=["POST"])
+@login_required
+def verify_2fa_setup():
+    code = request.form.get("code")
+    secret = session.get("temp_2fa_secret")
+
+    if not secret:
+        return redirect(url_for("dashboard"))
+
+    totp = pyotp.TOTP(secret)
+
+    if not totp.verify(code):
+        return "Invalid code"
+
+    users = load_json(USERS_PATH)
+    user_id = session["user_id"]
+
+    for u in users:
+        if u["id"] == user_id:
+            u["twofa_enabled"] = True
+            u["twofa_secret"] = encrypt_2fa_secret(secret)
+
+    save_json(USERS_PATH, users)
+
+    session.pop("temp_2fa_secret", None)
+
+    return redirect(url_for("dashboard"))
 
 
 # ------------------------
@@ -209,27 +332,34 @@ def logout():
 @login_required
 def dashboard():
     user_id = session.get("user_id")
-
     scans = load_user_scans(user_id)
 
     scan_id = request.args.get("scan_id")
-
     selected_scan = None
 
     if scan_id:
         file = get_user_scans_dir(user_id) / f"scan_{scan_id}.json"
+
         if file.exists():
-            selected_scan = json.loads(file.read_text())
+            raw = json.loads(file.read_text())
+            key = bytes.fromhex(session["enc_key"])
+
+            if raw.get("encrypted"):
+                selected_scan = decrypt_data(raw["data"], key)
+            else:
+                selected_scan = raw
 
     if not selected_scan:
         selected_scan = scans[-1] if scans else None
 
+    user = get_current_user()
+
     return render_template(
         "dashboard/dashboard.html",
         data=selected_scan,
-        scans=scans
+        scans=scans,
+        twofa_enabled=user.get("twofa_enabled", False)
     )
-
 
 # ------------------------
 # RUN SCAN
@@ -264,8 +394,14 @@ def run_scan():
         report["scan_id"] = scan_id
         report["scan_date"] = datetime.utcnow().isoformat()
 
+        key = bytes.fromhex(session["enc_key"])
+        encrypted = encrypt_data(report, key)
+
         scan_file = scans_dir / f"scan_{scan_id}.json"
-        scan_file.write_text(json.dumps(report, indent=2))
+        scan_file.write_text(json.dumps({
+            "encrypted": True,
+            "data": encrypted
+        }, indent=2))
 
     finally:
         if temp_path.exists():

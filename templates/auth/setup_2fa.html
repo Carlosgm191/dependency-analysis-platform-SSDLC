@@ -1,0 +1,59 @@
+<div class="auth-container">
+
+  <div class="container">
+
+```
+<div class="logo">🔐 Security Setup</div>
+<p class="subtitle">
+  Protege tu cuenta con autenticación en dos pasos
+</p>
+
+<div class="card">
+
+  <p style="text-align:center; margin-bottom:15px;">
+    Escanea este código con tu app de autenticación
+  </p>
+
+  <!-- QR -->
+  <div style="text-align:center; margin-bottom:20px;">
+    <img 
+      src="data:image/png;base64,{{ qr }}" 
+      alt="QR Code"
+      style="width:180px; border-radius:10px;"
+    >
+  </div>
+
+  <!-- FORM -->
+  <form method="post" action="{{ url_for('verify_2fa_setup') }}">
+
+    <div class="input-group">
+      <label>Verification Code</label>
+      <input 
+        type="text" 
+        name="code" 
+        placeholder="123456"
+        maxlength="6"
+        required
+      >
+    </div>
+
+    <button class="btn" type="submit">
+      Confirm & Activate
+    </button>
+
+  </form>
+
+  <a href="{{ url_for('dashboard') }}" class="btn-outline">
+    Cancelar
+  </a>
+
+</div>
+
+<div class="footer">
+  Usa apps como Google Authenticator o Aegis
+</div>
+```
+
+  </div>
+
+</div>

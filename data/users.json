@@ -24,5 +24,75 @@
       "hash": "97d715440cc3d0191dc258929a7b97d5edd69cd24b836b587d95a545cd4be0fe"
     },
     "created_at": "2026-04-21T05:51:57.306341"
+  },
+  {
+    "id": "5c1be671-2e71-428e-9610-2c19cedffadf",
+    "full_name": "Cifrado",
+    "email": "cifrado@correo.com",
+    "phone": "10000000000",
+    "password": {
+      "algorithm": "pbkdf2_sha256",
+      "iterations": 200000,
+      "salt": "c41f07ce8241c51e9badafd570bd9086",
+      "hash": "265622686515a35a3a9eaa2481c92dce1071fbd9d51b727e8cc5789650ad683b"
+    },
+    "created_at": "2026-04-21T16:57:01.198620"
+  },
+  {
+    "id": "c9d9335d-b212-4ecb-94ca-e7eeb706fd67",
+    "full_name": "FA",
+    "email": "fa@correo.com",
+    "phone": "0000000001",
+    "password": {
+      "algorithm": "pbkdf2_sha256",
+      "iterations": 200000,
+      "salt": "44321e8dff6ffd75f2eed2c1b37bb524",
+      "hash": "496b3e30d4a5ce51d1747fe8798fda973ff488d24e15c61a90d45c1621ed6f78"
+    },
+    "twofa_enabled": true,
+    "twofa_secret": {
+      "ciphertext": "e897658f530a8ec17245c4101567b38a0141ea99af376210f1af1d8af82806966d8b",
+      "nonce": "4452353e853f136d665699f3592072d4",
+      "tag": "d984f9a7cbe690c900d7eeb43c2fdda3"
+    },
+    "created_at": "2026-04-21T18:44:12.862966"
+  },
+  {
+    "id": "b2ec2730-e053-455e-892d-43aaac6e9370",
+    "full_name": "prueba dos",
+    "email": "prueba2@correo.com",
+    "phone": "899999999",
+    "password": {
+      "algorithm": "pbkdf2_sha256",
+      "iterations": 200000,
+      "salt": "da9d12ef05a456ce47251d10061829b8",
+      "hash": "2143def55ebe73dd4fedd3e2f015ce4b99cea3ce6e886d9e9b8bfad7b86d191f"
+    },
+    "twofa_enabled": true,
+    "twofa_secret": {
+      "ciphertext": "5a82c8540432ddad3b5d9d3134533029642ccef728681f20e8a1dc630a4b7d7c4d51",
+      "nonce": "9ad92b7b8148255b1520f42ad81cea47",
+      "tag": "8c4d94ca5c70167701a26a4be7f666bd"
+    },
+    "created_at": "2026-04-21T19:15:20.061612"
+  },
+  {
+    "id": "3a88fbad-5dcc-46cc-8f17-0a5a88092708",
+    "full_name": "otro",
+    "email": "otro@correo.com",
+    "phone": "2713972873",
+    "password": {
+      "algorithm": "pbkdf2_sha256",
+      "iterations": 200000,
+      "salt": "12b866af0c14b28b8d513edca36d0bb9",
+      "hash": "ed0f06eb255a7a81849e6a90c91ad1db34707bd7309ee904970d69eb87ad6179"
+    },
+    "twofa_enabled": true,
+    "twofa_secret": {
+      "ciphertext": "a27c0f82177d5855a0b3f62568af4d75bbb80a9951404fd020cf4ca17d461446be29",
+      "nonce": "3fcdb26817a62523b11916258eacc1a6",
+      "tag": "2b2d61825a0cc7fc249020d45a0e627e"
+    },
+    "created_at": "2026-04-21T20:53:28.441260"
   }
 ]
