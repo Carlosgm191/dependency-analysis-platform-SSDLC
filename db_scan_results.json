@@ -1,8 +1,8 @@
 {
     "project_name": "Dependency Analysis Platform",
-    "scan_date": "2026-04-20 19:52:13Z",
-    "weighted_risk_score": 12,
-    "risk_level": "YELLOW",
+    "scan_date": "2026-04-21 02:05:13Z",
+    "weighted_risk_score": 232,
+    "risk_level": "RED",
     "status": "FAILED",
     "critical_issues": 0,
     "vulnerability_summary": {
@@ -21,7 +21,7 @@
             "reference": null,
             "state": "open",
             "workflow_state": "open",
-            "created_at": "2026-04-20T19:52:13.477339Z"
+            "created_at": "2026-04-21T02:05:13.590196Z"
         },
         {
             "id": "CVE-2024-47081",
@@ -32,7 +32,7 @@
             "reference": null,
             "state": "open",
             "workflow_state": "open",
-            "created_at": "2026-04-20T19:52:13.477355Z"
+            "created_at": "2026-04-21T02:05:13.590213Z"
         },
         {
             "id": "CVE-2026-25645",
@@ -43,7 +43,480 @@
             "reference": null,
             "state": "open",
             "workflow_state": "open",
-            "created_at": "2026-04-20T19:52:13.477359Z"
+            "created_at": "2026-04-21T02:05:13.590217Z"
+        },
+        {
+            "id": "PYSEC-2024-59",
+            "package": "django",
+            "version": "4.2",
+            "severity": "MODERATE",
+            "description": "An issue was discovered in Django 5.0 before 5.0.7 and 4.2 before 4.2.14. `get_supported_language_variant()` was subject to a potential denial-of-service attack when used with very long strings containing specific characters.",
+            "reference": null,
+            "state": "open",
+            "workflow_state": "open",
+            "created_at": "2026-04-21T02:05:13.590220Z"
+        },
+        {
+            "id": "PYSEC-2024-69",
+            "package": "django",
+            "version": "4.2",
+            "severity": "MODERATE",
+            "description": "An issue was discovered in Django 5.0 before 5.0.8 and 4.2 before 4.2.15. The urlize and urlizetrunc template filters, and the AdminURLFieldWidget widget, are subject to a potential denial-of-service attack via certain inputs with a very large number of Unicode characters.",
+            "reference": null,
+            "state": "open",
+            "workflow_state": "open",
+            "created_at": "2026-04-21T02:05:13.590222Z"
+        },
+        {
+            "id": "PYSEC-2024-70",
+            "package": "django",
+            "version": "4.2",
+            "severity": "HIGH",
+            "description": "An issue was discovered in Django 5.0 before 5.0.8 and 4.2 before 4.2.15. QuerySet.values() and values_list() methods on models with a JSONField are subject to SQL injection in column aliases via a crafted JSON object key as a passed *arg.",
+            "reference": null,
+            "state": "open",
+            "workflow_state": "open",
+            "created_at": "2026-04-21T02:05:13.590224Z"
+        },
+        {
+            "id": "PYSEC-2024-68",
+            "package": "django",
+            "version": "4.2",
+            "severity": "MODERATE",
+            "description": "An issue was discovered in Django 5.0 before 5.0.8 and 4.2 before 4.2.15. The urlize() and urlizetrunc() template filters are subject to a potential denial-of-service attack via very large inputs with a specific sequence of characters.",
+            "reference": null,
+            "state": "open",
+            "workflow_state": "open",
+            "created_at": "2026-04-21T02:05:13.590226Z"
+        },
+        {
+            "id": "PYSEC-2024-67",
+            "package": "django",
+            "version": "4.2",
+            "severity": "MODERATE",
+            "description": "An issue was discovered in Django 5.0 before 5.0.8 and 4.2 before 4.2.15. The floatformat template filter is subject to significant memory consumption when given a string representation of a number in scientific notation with a large exponent.",
+            "reference": null,
+            "state": "open",
+            "workflow_state": "open",
+            "created_at": "2026-04-21T02:05:13.590227Z"
+        },
+        {
+            "id": "PYSEC-2024-102",
+            "package": "django",
+            "version": "4.2",
+            "severity": "MODERATE",
+            "description": "An issue was discovered in Django 5.1 before 5.1.1, 5.0 before 5.0.9, and 4.2 before 4.2.16. The urlize() and urlizetrunc() template filters are subject to a potential denial-of-service attack via very large inputs with a specific sequence of characters.",
+            "reference": null,
+            "state": "open",
+            "workflow_state": "open",
+            "created_at": "2026-04-21T02:05:13.590229Z"
+        },
+        {
+            "id": "PYSEC-2025-37",
+            "package": "django",
+            "version": "4.2",
+            "severity": "MODERATE",
+            "description": "An issue was discovered in Django 4.2 before 4.2.21, 5.1 before 5.1.9, and 5.2 before 5.2.1. The django.utils.html.strip_tags() function is vulnerable to a potential denial-of-service (slow performance) when processing inputs containing large sequences of incomplete HTML tags. The template filter striptags is also vulnerable, because it is built on top of strip_tags().",
+            "reference": null,
+            "state": "open",
+            "workflow_state": "open",
+            "created_at": "2026-04-21T02:05:13.590231Z"
+        },
+        {
+            "id": "PYSEC-2024-156",
+            "package": "django",
+            "version": "4.2",
+            "severity": "MODERATE",
+            "description": "An issue was discovered in Django 5.1 before 5.1.4, 5.0 before 5.0.10, and 4.2 before 4.2.17. The strip_tags() method and striptags template filter are subject to a potential denial-of-service attack via certain inputs containing large sequences of nested incomplete HTML entities.",
+            "reference": null,
+            "state": "open",
+            "workflow_state": "open",
+            "created_at": "2026-04-21T02:05:13.590233Z"
+        },
+        {
+            "id": "PYSEC-2024-157",
+            "package": "django",
+            "version": "4.2",
+            "severity": "HIGH",
+            "description": "An issue was discovered in Django 5.1 before 5.1.4, 5.0 before 5.0.10, and 4.2 before 4.2.17. Direct usage of the django.db.models.fields.json.HasKey lookup, when an Oracle database is used, is subject to SQL injection if untrusted data is used as an lhs value. (Applications that use the jsonfield.has_key lookup via __ are unaffected.)",
+            "reference": null,
+            "state": "open",
+            "workflow_state": "open",
+            "created_at": "2026-04-21T02:05:13.590235Z"
+        },
+        {
+            "id": "PYSEC-2025-1",
+            "package": "django",
+            "version": "4.2",
+            "severity": "CRITICAL",
+            "description": "An issue was discovered in Django 5.1 before 5.1.5, 5.0 before 5.0.11, and 4.2 before 4.2.18. Lack of upper-bound limit enforcement in strings passed when performing IPv6 validation could lead to a potential denial-of-service attack. The undocumented and private functions `clean_ipv6_address` and `is_valid_ipv6_address` are vulnerable, as is the `django.forms.GenericIPAddressField` form field. (The django.db.models.GenericIPAddressField model field is not affected.)",
+            "reference": null,
+            "state": "open",
+            "workflow_state": "open",
+            "created_at": "2026-04-21T02:05:13.590237Z"
+        },
+        {
+            "id": "PYSEC-2025-13",
+            "package": "django",
+            "version": "4.2",
+            "severity": "MODERATE",
+            "description": "An issue was discovered in Django 5.1 before 5.1.7, 5.0 before 5.0.13, and 4.2 before 4.2.20. The django.utils.text.wrap() method and wordwrap template filter are subject to a potential denial-of-service attack when used with very long strings.",
+            "reference": null,
+            "state": "open",
+            "workflow_state": "open",
+            "created_at": "2026-04-21T02:05:13.590238Z"
+        },
+        {
+            "id": "PYSEC-2025-47",
+            "package": "django",
+            "version": "4.2",
+            "severity": "MODERATE",
+            "description": "An issue was discovered in Django 5.2 before 5.2.2, 5.1 before 5.1.10, and 4.2 before 4.2.22. Internal HTTP response logging does not escape request.path, which allows remote attackers to potentially manipulate log output via crafted URLs. This may lead to log injection or forgery when logs are viewed in terminals or processed by external systems.",
+            "reference": null,
+            "state": "open",
+            "workflow_state": "open",
+            "created_at": "2026-04-21T02:05:13.590240Z"
+        },
+        {
+            "id": "CVE-2024-45231",
+            "package": "django",
+            "version": "4.2",
+            "severity": "MODERATE",
+            "description": "An issue was discovered in Django v5.1.1, v5.0.9, and v4.2.16. The django.contrib.auth.forms.PasswordResetForm class, when used in a view implementing password reset flows, allows remote attackers to enumerate user e-mail addresses by sending password reset requests and observing the outcome (only when e-mail sending is consistently failing).",
+            "reference": null,
+            "state": "open",
+            "workflow_state": "open",
+            "created_at": "2026-04-21T02:05:13.590242Z"
+        },
+        {
+            "id": "CVE-2025-57833",
+            "package": "django",
+            "version": "4.2",
+            "severity": "HIGH",
+            "description": "An issue was discovered in Django 4.2 before 4.2.24, 5.1 before 5.1.12, and 5.2 before 5.2.6. FilteredRelation is subject to SQL injection in column aliases, using a suitably crafted dictionary, with dictionary expansion, as the **kwargs passed QuerySet.annotate() or QuerySet.alias().",
+            "reference": null,
+            "state": "open",
+            "workflow_state": "open",
+            "created_at": "2026-04-21T02:05:13.590243Z"
+        },
+        {
+            "id": "CVE-2025-59681",
+            "package": "django",
+            "version": "4.2",
+            "severity": "HIGH",
+            "description": "An issue was discovered in Django 4.2 before 4.2.25, 5.1 before 5.1.13, and 5.2 before 5.2.7. QuerySet.annotate(), QuerySet.alias(), QuerySet.aggregate(), and QuerySet.extra() are subject to SQL injection in column aliases, when using a suitably crafted dictionary, with dictionary expansion, as the **kwargs passed to these methods (on MySQL and MariaDB).",
+            "reference": null,
+            "state": "open",
+            "workflow_state": "open",
+            "created_at": "2026-04-21T02:05:13.590245Z"
+        },
+        {
+            "id": "CVE-2025-59682",
+            "package": "django",
+            "version": "4.2",
+            "severity": "MODERATE",
+            "description": "An issue was discovered in Django 4.2 before 4.2.25, 5.1 before 5.1.13, and 5.2 before 5.2.7. The django.utils.archive.extract() function, used by the \"startapp --template\" and \"startproject --template\" commands, allows partial directory traversal via an archive with file paths sharing a common prefix with the target directory.",
+            "reference": null,
+            "state": "open",
+            "workflow_state": "open",
+            "created_at": "2026-04-21T02:05:13.590247Z"
+        },
+        {
+            "id": "CVE-2025-64458",
+            "package": "django",
+            "version": "4.2",
+            "severity": "MODERATE",
+            "description": "An issue was discovered in 5.1 before 5.1.14, 4.2 before 4.2.26, and 5.2 before 5.2.8. NFKC normalization in Python is slow on Windows. As a consequence, `django.http.HttpResponseRedirect`, `django.http.HttpResponsePermanentRedirect`, and the shortcut `django.shortcuts.redirect`  were subject to a potential  denial-of-service attack via certain inputs with a very large number of Unicode characters. Earlier, unsupported Django series (such as 5.0.x, 4.1.x, and 3.2.x) were not evaluated and may also be affected. Django would like to thank Seokchan Yoon for reporting this issue.",
+            "reference": null,
+            "state": "open",
+            "workflow_state": "open",
+            "created_at": "2026-04-21T02:05:13.590248Z"
+        },
+        {
+            "id": "CVE-2025-64459",
+            "package": "django",
+            "version": "4.2",
+            "severity": "HIGH",
+            "description": "An issue was discovered in 5.1 before 5.1.14, 4.2 before 4.2.26, and 5.2 before 5.2.8. The methods `QuerySet.filter()`, `QuerySet.exclude()`, and `QuerySet.get()`, and the class `Q()`, are subject to SQL injection when using a suitably crafted dictionary, with dictionary expansion, as the `_connector` argument. Earlier, unsupported Django series (such as 5.0.x, 4.1.x, and 3.2.x) were not evaluated and may also be affected. Django would like to thank cyberstan for reporting this issue.",
+            "reference": null,
+            "state": "open",
+            "workflow_state": "open",
+            "created_at": "2026-04-21T02:05:13.590250Z"
+        },
+        {
+            "id": "CVE-2025-13372",
+            "package": "django",
+            "version": "4.2",
+            "severity": "HIGH",
+            "description": "An issue was discovered in 5.2 before 5.2.9, 5.1 before 5.1.15, and 4.2 before 4.2.27. `FilteredRelation` is subject to SQL injection in column aliases, using a suitably crafted dictionary, with dictionary expansion, as the `**kwargs` passed to `QuerySet.annotate()` or `QuerySet.alias()` on PostgreSQL. Earlier, unsupported Django series (such as 5.0.x, 4.1.x, and 3.2.x) were not evaluated and may also be affected. Django would like to thank Stackered for reporting this issue.",
+            "reference": null,
+            "state": "open",
+            "workflow_state": "open",
+            "created_at": "2026-04-21T02:05:13.590252Z"
+        },
+        {
+            "id": "CVE-2025-64460",
+            "package": "django",
+            "version": "4.2",
+            "severity": "MODERATE",
+            "description": "An issue was discovered in 5.2 before 5.2.9, 5.1 before 5.1.15, and 4.2 before 4.2.27. Algorithmic complexity in `django.core.serializers.xml_serializer.getInnerText()` allows a remote attacker to cause a potential denial-of-service attack triggering CPU and memory exhaustion via specially crafted XML input processed by the XML `Deserializer`. Earlier, unsupported Django series (such as 5.0.x, 4.1.x, and 3.2.x) were not evaluated and may also be affected. Django would like to thank Seokchan Yoon for reporting this issue.",
+            "reference": null,
+            "state": "open",
+            "workflow_state": "open",
+            "created_at": "2026-04-21T02:05:13.590254Z"
+        },
+        {
+            "id": "CVE-2025-13473",
+            "package": "django",
+            "version": "4.2",
+            "severity": "MODERATE",
+            "description": "An issue was discovered in 6.0 before 6.0.2, 5.2 before 5.2.11, and 4.2 before 4.2.28.  The `django.contrib.auth.handlers.modwsgi.check_password()` function for authentication via `mod_wsgi` allows remote attackers to enumerate users via a timing attack. Earlier, unsupported Django series (such as 5.0.x, 4.1.x, and 3.2.x) were not evaluated and may also be affected.  Django would like to thank Stackered for reporting this issue.",
+            "reference": null,
+            "state": "open",
+            "workflow_state": "open",
+            "created_at": "2026-04-21T02:05:13.590255Z"
+        },
+        {
+            "id": "CVE-2026-1207",
+            "package": "django",
+            "version": "4.2",
+            "severity": "MODERATE",
+            "description": "An issue was discovered in 6.0 before 6.0.2, 5.2 before 5.2.11, and 4.2 before 4.2.28.  Raster lookups on ``RasterField`` (only implemented on PostGIS) allows remote attackers to inject SQL via the band index parameter. Earlier, unsupported Django series (such as 5.0.x, 4.1.x, and 3.2.x) were not evaluated and may also be affected.  Django would like to thank Tarek Nakkouch for reporting this issue.",
+            "reference": null,
+            "state": "open",
+            "workflow_state": "open",
+            "created_at": "2026-04-21T02:05:13.590257Z"
+        },
+        {
+            "id": "CVE-2026-1312",
+            "package": "django",
+            "version": "4.2",
+            "severity": "HIGH",
+            "description": "An issue was discovered in 6.0 before 6.0.2, 5.2 before 5.2.11, and 4.2 before 4.2.28.  `.QuerySet.order_by()` is subject to SQL injection in column aliases containing periods when the same alias is, using a suitably crafted dictionary, with dictionary expansion, used in `FilteredRelation`. Earlier, unsupported Django series (such as 5.0.x, 4.1.x, and 3.2.x) were not evaluated and may also be affected.  Django would like to thank Solomon Kebede for reporting this issue.",
+            "reference": null,
+            "state": "open",
+            "workflow_state": "open",
+            "created_at": "2026-04-21T02:05:13.590259Z"
+        },
+        {
+            "id": "CVE-2026-1287",
+            "package": "django",
+            "version": "4.2",
+            "severity": "HIGH",
+            "description": "An issue was discovered in 6.0 before 6.0.2, 5.2 before 5.2.11, and 4.2 before 4.2.28.  `FilteredRelation` is subject to SQL injection in column aliases via control characters, using a suitably crafted dictionary, with dictionary expansion, as the `**kwargs` passed to `QuerySet` methods `annotate()`, `aggregate()`, `extra()`, `values()`, `values_list()`, and `alias()`. Earlier, unsupported Django series (such as 5.0.x, 4.1.x, and 3.2.x) were not evaluated and may also be affected.  Django would like to thank Solomon Kebede for reporting this issue.",
+            "reference": null,
+            "state": "open",
+            "workflow_state": "open",
+            "created_at": "2026-04-21T02:05:13.590260Z"
+        },
+        {
+            "id": "CVE-2026-1285",
+            "package": "django",
+            "version": "4.2",
+            "severity": "MODERATE",
+            "description": "An issue was discovered in 6.0 before 6.0.2, 5.2 before 5.2.11, and 4.2 before 4.2.28.  `django.utils.text.Truncator.chars()` and `Truncator.words()` methods (with `html=True`) and the `truncatechars_html` and `truncatewords_html` template filters allow a remote attacker to cause a potential denial-of-service via crafted inputs containing a large number of unmatched HTML end tags. Earlier, unsupported Django series (such as 5.0.x, 4.1.x, and 3.2.x) were not evaluated and may also be affected.  Django would like to thank Seokchan Yoon for reporting this issue.",
+            "reference": null,
+            "state": "open",
+            "workflow_state": "open",
+            "created_at": "2026-04-21T02:05:13.590262Z"
+        },
+        {
+            "id": "CVE-2025-14550",
+            "package": "django",
+            "version": "4.2",
+            "severity": "MODERATE",
+            "description": "An issue was discovered in 6.0 before 6.0.2, 5.2 before 5.2.11, and 4.2 before 4.2.28.  `ASGIRequest` allows a remote attacker to cause a potential denial-of-service via a crafted request with multiple duplicate headers. Earlier, unsupported Django series (such as 5.0.x, 4.1.x, and 3.2.x) were not evaluated and may also be affected.  Django would like to thank Jiyong Yang for reporting this issue.",
+            "reference": null,
+            "state": "open",
+            "workflow_state": "open",
+            "created_at": "2026-04-21T02:05:13.590264Z"
+        },
+        {
+            "id": "CVE-2026-25674",
+            "package": "django",
+            "version": "4.2",
+            "severity": "MODERATE",
+            "description": "An issue was discovered in 6.0 before 6.0.3, 5.2 before 5.2.12, and 4.2 before 4.2.29.  Race condition in file-system storage and file-based cache backends in Django allows an attacker to cause file system objects to be created with incorrect permissions via concurrent requests, where one thread's temporary `umask` change affects other threads in multi-threaded environments.  Earlier, unsupported Django series (such as 5.0.x, 4.1.x, and 3.2.x) were not evaluated and may also be affected. Django would like to thank Tarek Nakkouch for reporting this issue.",
+            "reference": null,
+            "state": "open",
+            "workflow_state": "open",
+            "created_at": "2026-04-21T02:05:13.590266Z"
+        },
+        {
+            "id": "CVE-2026-25673",
+            "package": "django",
+            "version": "4.2",
+            "severity": "MODERATE",
+            "description": "An issue was discovered in 6.0 before 6.0.3, 5.2 before 5.2.12, and 4.2 before 4.2.29.  `URLField.to_python()` in Django calls `urllib.parse.urlsplit()`, which performs NFKC normalization on Windows that is disproportionately slow for certain Unicode characters, allowing a remote attacker to cause denial of service via large URL inputs containing these characters.  Earlier, unsupported Django series (such as 5.0.x, 4.1.x, and 3.2.x) were not evaluated and may also be affected. Django would like to thank Seokchan Yoon for reporting this issue.",
+            "reference": null,
+            "state": "open",
+            "workflow_state": "open",
+            "created_at": "2026-04-21T02:05:13.590267Z"
+        },
+        {
+            "id": "CVE-2026-33033",
+            "package": "django",
+            "version": "4.2",
+            "severity": "MODERATE",
+            "description": "An issue was discovered in 6.0 before 6.0.4, 5.2 before 5.2.13, and 4.2 before 4.2.30. `MultiPartParser` allows remote attackers to degrade performance by submitting multipart uploads with `Content-Transfer-Encoding: base64` including excessive whitespace.  Earlier, unsupported Django series (such as 5.0.x, 4.1.x, and 3.2.x) were not evaluated and may also be affected. Django would like to thank Seokchan Yoon for reporting this issue.",
+            "reference": null,
+            "state": "open",
+            "workflow_state": "open",
+            "created_at": "2026-04-21T02:05:13.590269Z"
+        },
+        {
+            "id": "CVE-2026-33034",
+            "package": "django",
+            "version": "4.2",
+            "severity": "MODERATE",
+            "description": "An issue was discovered in 6.0 before 6.0.4, 5.2 before 5.2.13, and 4.2 before 4.2.30. ASGI requests with a missing or understated `Content-Length` header could bypass the `DATA_UPLOAD_MAX_MEMORY_SIZE` limit when reading `HttpRequest.body`, allowing remote attackers to load an unbounded request body into memory.  Earlier, unsupported Django series (such as 5.0.x, 4.1.x, and 3.2.x) were not evaluated and may also be affected. Django would like to thank Superior for reporting this issue.",
+            "reference": null,
+            "state": "open",
+            "workflow_state": "open",
+            "created_at": "2026-04-21T02:05:13.590271Z"
+        },
+        {
+            "id": "CVE-2026-4292",
+            "package": "django",
+            "version": "4.2",
+            "severity": "MODERATE",
+            "description": "An issue was discovered in 6.0 before 6.0.4, 5.2 before 5.2.13, and 4.2 before 4.2.30. Admin changelist forms using `ModelAdmin.list_editable` incorrectly allowed new instances to be created via forged `POST` data.  Earlier, unsupported Django series (such as 5.0.x, 4.1.x, and 3.2.x) were not evaluated and may also be affected. Django would like to thank Cantina for reporting this issue.",
+            "reference": null,
+            "state": "open",
+            "workflow_state": "open",
+            "created_at": "2026-04-21T02:05:13.590272Z"
+        },
+        {
+            "id": "CVE-2026-4277",
+            "package": "django",
+            "version": "4.2",
+            "severity": "MODERATE",
+            "description": "An issue was discovered in 6.0 before 6.0.4, 5.2 before 5.2.13, and 4.2 before 4.2.30. Add permissions on inline model instances were not validated on submission of forged `POST` data in `GenericInlineModelAdmin`.  Earlier, unsupported Django series (such as 5.0.x, 4.1.x, and 3.2.x) were not evaluated and may also be affected. Django would like to thank N05ec@LZU-DSLab for reporting this issue.",
+            "reference": null,
+            "state": "open",
+            "workflow_state": "open",
+            "created_at": "2026-04-21T02:05:13.590274Z"
+        },
+        {
+            "id": "CVE-2026-3902",
+            "package": "django",
+            "version": "4.2",
+            "severity": "MODERATE",
+            "description": "An issue was discovered in 6.0 before 6.0.4, 5.2 before 5.2.13, and 4.2 before 4.2.30. `ASGIRequest` allows a remote attacker to spoof headers by exploiting an ambiguous mapping of two header variants (with hyphens or with underscores) to a single version with underscores.  Earlier, unsupported Django series (such as 5.0.x, 4.1.x, and 3.2.x) were not evaluated and may also be affected. Django would like to thank Tarek Nakkouch for reporting this issue.",
+            "reference": null,
+            "state": "open",
+            "workflow_state": "open",
+            "created_at": "2026-04-21T02:05:13.590276Z"
+        },
+        {
+            "id": "CVE-2024-37891",
+            "package": "urllib3",
+            "version": "2.1.0",
+            "severity": "MODERATE",
+            "description": "When using urllib3's proxy support with `ProxyManager`, the `Proxy-Authorization` header is only sent to the configured proxy, as expected.  However, when sending HTTP requests *without* using urllib3's proxy support, it's possible to accidentally configure the `Proxy-Authorization` header even though it won't have any effect as the request is not using a forwarding proxy or a tunneling proxy. In those cases, urllib3 doesn't treat the `Proxy-Authorization` HTTP header as one carrying authentication material and thus doesn't strip the header on cross-origin redirects.  Because this is a highly unlikely scenario, we believe the severity of this vulnerability is low for almost all users. Out of an abundance of caution urllib3 will automatically strip the `Proxy-Authorization` header during cross-origin redirects to avoid the small chance that users are doing this on accident.  Users should use urllib3's proxy support or disable automatic redirects to achieve safe processing of the `Proxy-Authorization` header, but we still decided to strip the header by default in order to further protect users who aren't using the correct approach.  ## Affected usages  We believe the number of usages affected by this advisory is low. It requires all of the following to be true to be exploited:  * Setting the `Proxy-Authorization` header without using urllib3's built-in proxy support. * Not disabling HTTP redirects. * Either not using an HTTPS origin server or for the proxy or target origin to redirect to a malicious origin.  ## Remediation  * Using the `Proxy-Authorization` header with urllib3's `ProxyManager`. * Disabling HTTP redirects using `redirects=False` when sending requests. * Not using the `Proxy-Authorization` header.",
+            "reference": null,
+            "state": "open",
+            "workflow_state": "open",
+            "created_at": "2026-04-21T02:05:13.590278Z"
+        },
+        {
+            "id": "CVE-2025-50181",
+            "package": "urllib3",
+            "version": "2.1.0",
+            "severity": "MODERATE",
+            "description": "urllib3 handles redirects and retries using the same mechanism, which is controlled by the `Retry` object. The most common way to disable redirects is at the request level, as follows:  ```python resp = urllib3.request(\"GET\", \"https://httpbin.org/redirect/1\", redirect=False) print(resp.status) # 302 ```  However, it is also possible to disable redirects, for all requests, by instantiating a `PoolManager` and specifying `retries` in a way that disable redirects:  ```python import urllib3  http = urllib3.PoolManager(retries=0)  # should raise MaxRetryError on redirect http = urllib3.PoolManager(retries=urllib3.Retry(redirect=0))  # equivalent to the above http = urllib3.PoolManager(retries=False)  # should return the first response  resp = http.request(\"GET\", \"https://httpbin.org/redirect/1\") ```  However, the `retries` parameter is currently ignored, which means all the above examples don't disable redirects.  ## Affected usages  Passing `retries` on `PoolManager` instantiation to disable redirects or restrict their number.  By default, requests and botocore users are not affected.  ## Impact  Redirects are often used to exploit SSRF vulnerabilities. An application attempting to mitigate SSRF or open redirect vulnerabilities by disabling redirects at the PoolManager level will remain vulnerable.  ## Remediation  You can remediate this vulnerability with the following steps:   * Upgrade to a patched version of urllib3. If your organization would benefit from the continued support of urllib3 1.x, please contact [sethmichaellarson@gmail.com](mailto:sethmichaellarson@gmail.com) to discuss sponsorship or contribution opportunities.  * Disable redirects at the `request()` level instead of the `PoolManager()` level.",
+            "reference": null,
+            "state": "open",
+            "workflow_state": "open",
+            "created_at": "2026-04-21T02:05:13.590279Z"
+        },
+        {
+            "id": "CVE-2025-66418",
+            "package": "urllib3",
+            "version": "2.1.0",
+            "severity": "CRITICAL",
+            "description": "## Impact  urllib3 supports chained HTTP encoding algorithms for response content according to RFC 9110 (e.g., `Content-Encoding: gzip, zstd`).  However, the number of links in the decompression chain was unbounded allowing a malicious server to insert a virtually unlimited number of compression steps leading to high CPU usage and massive memory allocation for the decompressed data.   ## Affected usages  Applications and libraries using urllib3 version 2.5.0 and earlier for HTTP requests to untrusted sources unless they disable content decoding explicitly.   ## Remediation  Upgrade to at least urllib3 v2.6.0 in which the library limits the number of links to 5.  If upgrading is not immediately possible, use [`preload_content=False`](https://urllib3.readthedocs.io/en/2.5.0/advanced-usage.html#streaming-and-i-o) and ensure that `resp.headers[\"content-encoding\"]` contains a safe number of encodings before reading the response content.",
+            "reference": null,
+            "state": "open",
+            "workflow_state": "open",
+            "created_at": "2026-04-21T02:05:13.590281Z"
+        },
+        {
+            "id": "CVE-2025-66471",
+            "package": "urllib3",
+            "version": "2.1.0",
+            "severity": "CRITICAL",
+            "description": "### Impact  urllib3's [streaming API](https://urllib3.readthedocs.io/en/2.5.0/advanced-usage.html#streaming-and-i-o) is designed for the efficient handling of large HTTP responses by reading the content in chunks, rather than loading the entire response body into memory at once.  When streaming a compressed response, urllib3 can perform decoding or decompression based on the HTTP `Content-Encoding` header (e.g., `gzip`, `deflate`, `br`, or `zstd`). The library must read compressed data from the network and decompress it until the requested chunk size is met. Any resulting decompressed data that exceeds the requested amount is held in an internal buffer for the next read operation.  The decompression logic could cause urllib3 to fully decode a small amount of highly compressed data in a single operation. This can result in excessive resource consumption (high CPU usage and massive memory allocation for the decompressed data; CWE-409) on the client side, even if the application only requested a small chunk of data.   ### Affected usages  Applications and libraries using urllib3 version 2.5.0 and earlier to stream large compressed responses or content from untrusted sources.  `stream()`, `read(amt=256)`, `read1(amt=256)`, `read_chunked(amt=256)`, `readinto(b)` are examples of `urllib3.HTTPResponse` method calls using the affected logic unless decoding is disabled explicitly.   ### Remediation  Upgrade to at least urllib3 v2.6.0 in which the library avoids decompressing data that exceeds the requested amount.  If your environment contains a package facilitating the Brotli encoding, upgrade to at least Brotli 1.2.0 or brotlicffi 1.2.0.0 too. These versions are enforced by the `urllib3[brotli]` extra in the patched versions of urllib3.   ### Credits  The issue was reported by @Cycloctane. Supplemental information was provided by @stamparm during a security audit performed by [7ASecurity](https://7asecurity.com/) and facilitated by [OSTIF](https://ostif.org/).",
+            "reference": null,
+            "state": "open",
+            "workflow_state": "open",
+            "created_at": "2026-04-21T02:05:13.590283Z"
+        },
+        {
+            "id": "CVE-2026-21441",
+            "package": "urllib3",
+            "version": "2.1.0",
+            "severity": "CRITICAL",
+            "description": "### Impact  urllib3's [streaming API](https://urllib3.readthedocs.io/en/2.6.2/advanced-usage.html#streaming-and-i-o) is designed for the efficient handling of large HTTP responses by reading the content in chunks, rather than loading the entire response body into memory at once.  urllib3 can perform decoding or decompression based on the HTTP `Content-Encoding` header (e.g., `gzip`, `deflate`, `br`, or `zstd`). When using the streaming API, the library decompresses only the necessary bytes, enabling partial content consumption.  However, for HTTP redirect responses, the library would read the entire response body to drain the connection and decompress the content unnecessarily. This decompression occurred even before any read methods were called, and configured read limits did not restrict the amount of decompressed data. As a result, there was no safeguard against decompression bombs. A malicious server could exploit this to trigger excessive resource consumption on the client (high CPU usage and large memory allocations for decompressed data; CWE-409).  ### Affected usages  Applications and libraries using urllib3 version 2.6.2 and earlier to stream content from untrusted sources by setting `preload_content=False` when they do not disable redirects.   ### Remediation  Upgrade to at least urllib3 v2.6.3 in which the library does not decode content of redirect responses when `preload_content=False`.  If upgrading is not immediately possible, disable [redirects](https://urllib3.readthedocs.io/en/2.6.2/user-guide.html#retrying-requests) by setting `redirect=False` for requests to untrusted source.",
+            "reference": null,
+            "state": "open",
+            "workflow_state": "open",
+            "created_at": "2026-04-21T02:05:13.590284Z"
+        },
+        {
+            "id": "CVE-2024-22195",
+            "package": "jinja2",
+            "version": "3.1.0",
+            "severity": "MODERATE",
+            "description": "The `xmlattr` filter in affected versions of Jinja accepts keys containing spaces. XML/HTML attributes cannot contain spaces, as each would then be interpreted as a separate attribute. If an application accepts keys (as opposed to only values) as user input, and renders these in pages that other users see as well, an attacker could use this to inject other attributes and perform XSS. Note that accepting keys as user input is not common or a particularly intended use case of the `xmlattr` filter, and an application doing so should already be verifying what keys are provided regardless of this fix.",
+            "reference": null,
+            "state": "open",
+            "workflow_state": "open",
+            "created_at": "2026-04-21T02:05:13.590286Z"
+        },
+        {
+            "id": "CVE-2024-34064",
+            "package": "jinja2",
+            "version": "3.1.0",
+            "severity": "MODERATE",
+            "description": "The `xmlattr` filter in affected versions of Jinja accepts keys containing non-attribute characters. XML/HTML attributes cannot contain spaces, `/`, `>`, or `=`, as each would then be interpreted as starting a separate attribute. If an application accepts keys (as opposed to only values) as user input, and renders these in pages that other users see as well, an attacker could use this to inject other attributes and perform XSS. The fix for the previous GHSA-h5c8-rqwp-cp95 CVE-2024-22195 only addressed spaces but not other characters.  Accepting keys as user input is now explicitly considered an unintended use case of the `xmlattr` filter, and code that does so without otherwise validating the input should be flagged as insecure, regardless of Jinja version. Accepting _values_ as user input continues to be safe.",
+            "reference": null,
+            "state": "open",
+            "workflow_state": "open",
+            "created_at": "2026-04-21T02:05:13.590288Z"
+        },
+        {
+            "id": "CVE-2024-56326",
+            "package": "jinja2",
+            "version": "3.1.0",
+            "severity": "MODERATE",
+            "description": "An oversight in how the Jinja sandboxed environment detects calls to `str.format` allows an attacker that controls the content of a template to execute arbitrary Python code.  To exploit the vulnerability, an attacker needs to control the content of a template. Whether that is the case depends on the type of application using Jinja. This vulnerability impacts users of applications which execute untrusted templates.  Jinja's sandbox does catch calls to `str.format` and ensures they don't escape the sandbox. However, it's possible to store a reference to a malicious string's `format` method, then pass that to a filter that calls it. No such filters are built-in to Jinja, but could be present through custom filters in an application. After the fix, such indirect calls are also handled by the sandbox.",
+            "reference": null,
+            "state": "open",
+            "workflow_state": "open",
+            "created_at": "2026-04-21T02:05:13.590289Z"
+        },
+        {
+            "id": "CVE-2024-56201",
+            "package": "jinja2",
+            "version": "3.1.0",
+            "severity": "MODERATE",
+            "description": "A bug in the Jinja compiler allows an attacker that controls both the content and filename of a template to execute arbitrary Python code, regardless of if Jinja's sandbox is used.  To exploit the vulnerability, an attacker needs to control both the filename and the contents of a template. Whether that is the case depends on the type of application using Jinja. This vulnerability impacts users of applications which execute untrusted templates where the template author can also choose the template filename.",
+            "reference": null,
+            "state": "open",
+            "workflow_state": "open",
+            "created_at": "2026-04-21T02:05:13.590291Z"
+        },
+        {
+            "id": "CVE-2025-27516",
+            "package": "jinja2",
+            "version": "3.1.0",
+            "severity": "MODERATE",
+            "description": "An oversight in how the Jinja sandboxed environment interacts with the `|attr` filter allows an attacker that controls the content of a template to execute arbitrary Python code.  To exploit the vulnerability, an attacker needs to control the content of a template. Whether that is the case depends on the type of application using Jinja. This vulnerability impacts users of applications which execute untrusted templates.  Jinja's sandbox does catch calls to `str.format` and ensures they don't escape the sandbox. However, it's possible to use the `|attr` filter to get a reference to a string's plain format method, bypassing the sandbox. After the fix, the `|attr` filter no longer bypasses the environment's attribute lookup.",
+            "reference": null,
+            "state": "open",
+            "workflow_state": "open",
+            "created_at": "2026-04-21T02:05:13.590293Z"
         }
     ]
 }
