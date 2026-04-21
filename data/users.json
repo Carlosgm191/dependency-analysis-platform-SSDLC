@@ -1,0 +1,28 @@
+[
+  {
+    "id": 1,
+    "full_name": "Prueba",
+    "email": "prueba@correo.com",
+    "phone": "3000000000",
+    "password": {
+      "algorithm": "pbkdf2_sha256",
+      "iterations": 200000,
+      "salt": "6394cf19447613c489e4052c507ca999",
+      "hash": "98bf46b280679f96b9e3f02edb0ba70afae26af46080e5ad8d72e7349e1bc9c6"
+    },
+    "created_at": "2026-04-20T21:37:27.153106"
+  },
+  {
+    "id": 2,
+    "full_name": "dads",
+    "email": "correo@prueba.com",
+    "phone": "12817983712312",
+    "password": {
+      "algorithm": "pbkdf2_sha256",
+      "iterations": 200000,
+      "salt": "9f519186c7941caf22469e23467456b1",
+      "hash": "374166ef57862e00f4563e63ad333a5aab5874253b046ea28c207e4ad2bca048"
+    },
+    "created_at": "2026-04-20T21:55:32.679870"
+  }
+]

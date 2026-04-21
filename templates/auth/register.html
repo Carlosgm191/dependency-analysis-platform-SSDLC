@@ -1,0 +1,77 @@
+{% extends "base_auth.html" %}
+{% block title %}Register - DependShield{% endblock %}
+
+{% block content %}
+
+<div class="container">
+
+  <div class="logo">🛡 DependShield</div>
+  <h2>Create Security Account</h2>
+  <p class="subtitle">Join the DevSecOps platform for dependency analysis.</p>
+
+  <div class="card">
+    <form method="POST">
+
+      <div class="input-group">
+        <label>Full Name</label>
+        <input name="full_name" value="{{ form.full_name if form else '' }}"
+          class="{% if field_errors.get('full_name') %}error{% endif %}">
+        {% if field_errors.get('full_name') %}
+          <div class="field-error"> {{ field_errors.get('full_name') }}</div>
+        {% endif %}
+      </div>
+
+      <div class="input-group">
+        <label>Email</label>
+        <input name="email" value="{{ form.email if form else '' }}"
+          class="{% if field_errors.get('email') %}error{% endif %}">
+        {% if field_errors.get('email') %}
+          <div class="field-error"> {{ field_errors.get('email') }}</div>
+        {% endif %}
+      </div>
+
+      <div class="input-group">
+        <label>Phone</label>
+        <input name="phone"
+          value="{{ form.phone if form else '' }}"
+          class="{% if field_errors.get('phone') %}error{% endif %}">
+        {% if field_errors.get('phone') %}
+          <div class="field-error"> {{ field_errors.get('phone') }}</div>
+        {% endif %}
+      </div>
+
+      <div class="input-group">
+        <label>Password</label>
+        <input type="password" name="password"
+          class="{% if field_errors.get('password') %}error{% endif %}">
+        {% if field_errors.get('password') %}
+          <div class="field-error"> {{ field_errors.get('password') }}</div>
+        {% endif %}
+      </div>
+
+      <div class="input-group">
+        <label>Confirm Password</label>
+        <input type="password" name="confirm_password"
+          class="{% if field_errors.get('confirm_password') %}error{% endif %}">
+        {% if field_errors.get('confirm_password') %}
+          <div class="field-error"> {{ field_errors.get('confirm_password') }}</div>
+        {% endif %}
+      </div>
+
+      <button class="btn">Create Account →</button>
+
+    </form>
+
+    <div class="link">
+      Already have an account? <a href="/login">Sign In</a>
+    </div>
+
+    <div class="footer">
+      🔐 AES-256 • SOC2 • 2FA Ready
+    </div>
+
+  </div>
+
+</div>
+
+{% endblock %}

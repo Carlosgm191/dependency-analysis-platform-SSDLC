@@ -1,0 +1,68 @@
+{% extends "base_app.html" %}
+
+{% block content %}
+
+<h1>Security Dashboard</h1>
+
+<!-- RISK OVERVIEW -->
+<div class="risk-banner {{ data.risk_level|lower }}">
+  <div>
+    <h2>Risk Score: {{ data.weighted_risk_score }}</h2>
+    <p>Status: {{ data.status }}</p>
+  </div>
+  <div class="risk-level">
+    {{ data.risk_level }}
+  </div>
+</div>
+
+<!-- SUMMARY CARDS -->
+<div class="summary-grid">
+
+  <div class="summary-card critical">
+    <h3>{{ data.vulnerability_summary.CRITICAL }}</h3>
+    <p>Critical</p>
+  </div>
+
+  <div class="summary-card high">
+    <h3>{{ data.vulnerability_summary.HIGH }}</h3>
+    <p>High</p>
+  </div>
+
+  <div class="summary-card moderate">
+    <h3>{{ data.vulnerability_summary.MODERATE }}</h3>
+    <p>Moderate</p>
+  </div>
+
+</div>
+
+<!-- TABLE -->
+<div class="table-container">
+
+  <h2>Vulnerabilities</h2>
+
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Package</th>
+        <th>Severity</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      {% for v in data.details[:20] %}
+      <tr class="sev-{{ v.severity|lower }}">
+        <td>{{ v.id }}</td>
+        <td>{{ v.package }}</td>
+        <td>{{ v.severity }}</td>
+        <td>{{ v.description[:120] }}...</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+
+  </table>
+
+</div>
+
+{% endblock %}
