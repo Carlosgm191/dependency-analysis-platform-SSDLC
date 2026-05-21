@@ -16,6 +16,7 @@ from src.family_classifier import classify_family
 from src.deduplicator import group_vulnerabilities
 from src.risk_engine import calculate_risk
 from src.dread_engine import calculate_dread
+from src.reporters import write_report_formats
 
 SCANNERS = {
     "pip-audit": run_pip_audit,
@@ -43,6 +44,18 @@ def main():
         "--requirements",
         default="requirements.txt",
         help="Requirements file to scan"
+    )
+
+    parser.add_argument(
+        "--output-formats",
+        default="json,sarif,csv",
+        help="Comma-separated output formats: json,sarif,csv"
+    )
+
+    parser.add_argument(
+        "--output-stem",
+        default="db_scan_results",
+        help="Output file stem without extension"
     )
 
     args = parser.parse_args()
@@ -184,11 +197,13 @@ def main():
 
         report["groups"].append(group_entry)
 
-    with open("db_scan_results.json", "w") as f:
+    requested_formats = [f.strip() for f in args.output_formats.split(",") if f.strip()]
+    output_paths = write_report_formats(report, requested_formats, args.output_stem)
 
-        json.dump(report, f, indent=4)
-
-    print("[+] JSON report saved to db_scan_results.json\n")
+    print("[+] Reports generated:")
+    for fmt, path in output_paths.items():
+        print(f"    - {fmt.upper()}: {path}")
+    print()
 
 
 if __name__ == "__main__":
