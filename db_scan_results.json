@@ -1,6 +1,6 @@
 {
     "project_name": "Dependency Analysis Platform",
-    "scan_date": "2026-04-21 02:05:13Z",
+    "scan_date": "2026-04-20 04:23:48Z",
     "weighted_risk_score": 232,
     "risk_level": "RED",
     "status": "FAILED",
@@ -11,7 +11,7 @@
         "MODERATE": 34,
         "LOW": 0
     },
-    "details": [
+    "groups": [
         {
             "id": "PYSEC-2024-58",
             "package": "django",
@@ -21,7 +21,7 @@
             "reference": null,
             "state": "open",
             "workflow_state": "open",
-            "created_at": "2026-04-21T02:05:13.590196Z"
+            "created_at": "2026-04-20T04:23:48.074775Z"
         },
         {
             "id": "PYSEC-2024-57",
@@ -32,7 +32,7 @@
             "reference": null,
             "state": "open",
             "workflow_state": "open",
-            "created_at": "2026-04-21T02:05:13.590213Z"
+            "created_at": "2026-04-20T04:23:48.074793Z"
         },
         {
             "id": "PYSEC-2024-56",
@@ -43,7 +43,7 @@
             "reference": null,
             "state": "open",
             "workflow_state": "open",
-            "created_at": "2026-04-21T02:05:13.590217Z"
+            "created_at": "2026-04-20T04:23:48.074796Z"
         },
         {
             "id": "PYSEC-2024-59",
@@ -54,7 +54,7 @@
             "reference": null,
             "state": "open",
             "workflow_state": "open",
-            "created_at": "2026-04-21T02:05:13.590220Z"
+            "created_at": "2026-04-20T04:23:48.074799Z"
         },
         {
             "id": "PYSEC-2024-69",
@@ -65,7 +65,7 @@
             "reference": null,
             "state": "open",
             "workflow_state": "open",
-            "created_at": "2026-04-21T02:05:13.590222Z"
+            "created_at": "2026-04-20T04:23:48.074801Z"
         },
         {
             "id": "PYSEC-2024-70",
@@ -76,7 +76,7 @@
             "reference": null,
             "state": "open",
             "workflow_state": "open",
-            "created_at": "2026-04-21T02:05:13.590224Z"
+            "created_at": "2026-04-20T04:23:48.074803Z"
         },
         {
             "id": "PYSEC-2024-68",
@@ -87,7 +87,7 @@
             "reference": null,
             "state": "open",
             "workflow_state": "open",
-            "created_at": "2026-04-21T02:05:13.590226Z"
+            "created_at": "2026-04-20T04:23:48.074805Z"
         },
         {
             "id": "PYSEC-2024-67",
@@ -98,7 +98,7 @@
             "reference": null,
             "state": "open",
             "workflow_state": "open",
-            "created_at": "2026-04-21T02:05:13.590227Z"
+            "created_at": "2026-04-20T04:23:48.074806Z"
         },
         {
             "id": "PYSEC-2024-102",
@@ -109,7 +109,7 @@
             "reference": null,
             "state": "open",
             "workflow_state": "open",
-            "created_at": "2026-04-21T02:05:13.590229Z"
+            "created_at": "2026-04-20T04:23:48.074808Z"
         },
         {
             "id": "PYSEC-2025-37",
@@ -120,7 +120,7 @@
             "reference": null,
             "state": "open",
             "workflow_state": "open",
-            "created_at": "2026-04-21T02:05:13.590231Z"
+            "created_at": "2026-04-20T04:23:48.074810Z"
         },
         {
             "id": "PYSEC-2024-156",
@@ -131,7 +131,7 @@
             "reference": null,
             "state": "open",
             "workflow_state": "open",
-            "created_at": "2026-04-21T02:05:13.590233Z"
+            "created_at": "2026-04-20T04:23:48.074812Z"
         },
         {
             "id": "PYSEC-2024-157",
@@ -142,7 +142,7 @@
             "reference": null,
             "state": "open",
             "workflow_state": "open",
-            "created_at": "2026-04-21T02:05:13.590235Z"
+            "created_at": "2026-04-20T04:23:48.074814Z"
         },
         {
             "id": "PYSEC-2025-1",
@@ -153,7 +153,7 @@
             "reference": null,
             "state": "open",
             "workflow_state": "open",
-            "created_at": "2026-04-21T02:05:13.590237Z"
+            "created_at": "2026-04-20T04:23:48.074816Z"
         },
         {
             "id": "PYSEC-2025-13",
@@ -164,7 +164,7 @@
             "reference": null,
             "state": "open",
             "workflow_state": "open",
-            "created_at": "2026-04-21T02:05:13.590238Z"
+            "created_at": "2026-04-20T04:23:48.074818Z"
         },
         {
             "id": "PYSEC-2025-47",
@@ -175,7 +175,7 @@
             "reference": null,
             "state": "open",
             "workflow_state": "open",
-            "created_at": "2026-04-21T02:05:13.590240Z"
+            "created_at": "2026-04-20T04:23:48.074820Z"
         },
         {
             "id": "CVE-2024-45231",
@@ -186,7 +186,7 @@
             "reference": null,
             "state": "open",
             "workflow_state": "open",
-            "created_at": "2026-04-21T02:05:13.590242Z"
+            "created_at": "2026-04-20T04:23:48.074821Z"
         },
         {
             "id": "CVE-2025-57833",
@@ -197,7 +197,7 @@
             "reference": null,
             "state": "open",
             "workflow_state": "open",
-            "created_at": "2026-04-21T02:05:13.590243Z"
+            "created_at": "2026-04-20T04:23:48.074823Z"
         },
         {
             "id": "CVE-2025-59681",
@@ -208,7 +208,7 @@
             "reference": null,
             "state": "open",
             "workflow_state": "open",
-            "created_at": "2026-04-21T02:05:13.590245Z"
+            "created_at": "2026-04-20T04:23:48.074825Z"
         },
         {
             "id": "CVE-2025-59682",
@@ -219,7 +219,7 @@
             "reference": null,
             "state": "open",
             "workflow_state": "open",
-            "created_at": "2026-04-21T02:05:13.590247Z"
+            "created_at": "2026-04-20T04:23:48.074827Z"
         },
         {
             "id": "CVE-2025-64458",
@@ -230,7 +230,7 @@
             "reference": null,
             "state": "open",
             "workflow_state": "open",
-            "created_at": "2026-04-21T02:05:13.590248Z"
+            "created_at": "2026-04-20T04:23:48.074828Z"
         },
         {
             "id": "CVE-2025-64459",
@@ -241,7 +241,7 @@
             "reference": null,
             "state": "open",
             "workflow_state": "open",
-            "created_at": "2026-04-21T02:05:13.590250Z"
+            "created_at": "2026-04-20T04:23:48.074830Z"
         },
         {
             "id": "CVE-2025-13372",
@@ -252,7 +252,7 @@
             "reference": null,
             "state": "open",
             "workflow_state": "open",
-            "created_at": "2026-04-21T02:05:13.590252Z"
+            "created_at": "2026-04-20T04:23:48.074832Z"
         },
         {
             "id": "CVE-2025-64460",
@@ -263,7 +263,7 @@
             "reference": null,
             "state": "open",
             "workflow_state": "open",
-            "created_at": "2026-04-21T02:05:13.590254Z"
+            "created_at": "2026-04-20T04:23:48.074833Z"
         },
         {
             "id": "CVE-2025-13473",
@@ -274,7 +274,7 @@
             "reference": null,
             "state": "open",
             "workflow_state": "open",
-            "created_at": "2026-04-21T02:05:13.590255Z"
+            "created_at": "2026-04-20T04:23:48.074835Z"
         },
         {
             "id": "CVE-2026-1207",
@@ -285,7 +285,7 @@
             "reference": null,
             "state": "open",
             "workflow_state": "open",
-            "created_at": "2026-04-21T02:05:13.590257Z"
+            "created_at": "2026-04-20T04:23:48.074837Z"
         },
         {
             "id": "CVE-2026-1312",
@@ -296,7 +296,7 @@
             "reference": null,
             "state": "open",
             "workflow_state": "open",
-            "created_at": "2026-04-21T02:05:13.590259Z"
+            "created_at": "2026-04-20T04:23:48.074839Z"
         },
         {
             "id": "CVE-2026-1287",
@@ -307,7 +307,7 @@
             "reference": null,
             "state": "open",
             "workflow_state": "open",
-            "created_at": "2026-04-21T02:05:13.590260Z"
+            "created_at": "2026-04-20T04:23:48.074841Z"
         },
         {
             "id": "CVE-2026-1285",
@@ -318,7 +318,7 @@
             "reference": null,
             "state": "open",
             "workflow_state": "open",
-            "created_at": "2026-04-21T02:05:13.590262Z"
+            "created_at": "2026-04-20T04:23:48.074843Z"
         },
         {
             "id": "CVE-2025-14550",
@@ -329,7 +329,7 @@
             "reference": null,
             "state": "open",
             "workflow_state": "open",
-            "created_at": "2026-04-21T02:05:13.590264Z"
+            "created_at": "2026-04-20T04:23:48.074844Z"
         },
         {
             "id": "CVE-2026-25674",
@@ -340,7 +340,7 @@
             "reference": null,
             "state": "open",
             "workflow_state": "open",
-            "created_at": "2026-04-21T02:05:13.590266Z"
+            "created_at": "2026-04-20T04:23:48.074846Z"
         },
         {
             "id": "CVE-2026-25673",
@@ -351,7 +351,7 @@
             "reference": null,
             "state": "open",
             "workflow_state": "open",
-            "created_at": "2026-04-21T02:05:13.590267Z"
+            "created_at": "2026-04-20T04:23:48.074848Z"
         },
         {
             "id": "CVE-2026-33033",
@@ -362,7 +362,7 @@
             "reference": null,
             "state": "open",
             "workflow_state": "open",
-            "created_at": "2026-04-21T02:05:13.590269Z"
+            "created_at": "2026-04-20T04:23:48.074850Z"
         },
         {
             "id": "CVE-2026-33034",
@@ -373,7 +373,7 @@
             "reference": null,
             "state": "open",
             "workflow_state": "open",
-            "created_at": "2026-04-21T02:05:13.590271Z"
+            "created_at": "2026-04-20T04:23:48.074852Z"
         },
         {
             "id": "CVE-2026-4292",
@@ -384,7 +384,7 @@
             "reference": null,
             "state": "open",
             "workflow_state": "open",
-            "created_at": "2026-04-21T02:05:13.590272Z"
+            "created_at": "2026-04-20T04:23:48.074854Z"
         },
         {
             "id": "CVE-2026-4277",
@@ -395,7 +395,7 @@
             "reference": null,
             "state": "open",
             "workflow_state": "open",
-            "created_at": "2026-04-21T02:05:13.590274Z"
+            "created_at": "2026-04-20T04:23:48.074855Z"
         },
         {
             "id": "CVE-2026-3902",
@@ -406,7 +406,7 @@
             "reference": null,
             "state": "open",
             "workflow_state": "open",
-            "created_at": "2026-04-21T02:05:13.590276Z"
+            "created_at": "2026-04-20T04:23:48.074857Z"
         },
         {
             "id": "CVE-2024-37891",
@@ -417,7 +417,7 @@
             "reference": null,
             "state": "open",
             "workflow_state": "open",
-            "created_at": "2026-04-21T02:05:13.590278Z"
+            "created_at": "2026-04-20T04:23:48.074859Z"
         },
         {
             "id": "CVE-2025-50181",
@@ -428,7 +428,7 @@
             "reference": null,
             "state": "open",
             "workflow_state": "open",
-            "created_at": "2026-04-21T02:05:13.590279Z"
+            "created_at": "2026-04-20T04:23:48.074861Z"
         },
         {
             "id": "CVE-2025-66418",
@@ -439,7 +439,7 @@
             "reference": null,
             "state": "open",
             "workflow_state": "open",
-            "created_at": "2026-04-21T02:05:13.590281Z"
+            "created_at": "2026-04-20T04:23:48.074863Z"
         },
         {
             "id": "CVE-2025-66471",
@@ -450,7 +450,7 @@
             "reference": null,
             "state": "open",
             "workflow_state": "open",
-            "created_at": "2026-04-21T02:05:13.590283Z"
+            "created_at": "2026-04-20T04:23:48.074865Z"
         },
         {
             "id": "CVE-2026-21441",
@@ -461,7 +461,7 @@
             "reference": null,
             "state": "open",
             "workflow_state": "open",
-            "created_at": "2026-04-21T02:05:13.590284Z"
+            "created_at": "2026-04-20T04:23:48.074866Z"
         },
         {
             "id": "CVE-2024-22195",
@@ -472,7 +472,7 @@
             "reference": null,
             "state": "open",
             "workflow_state": "open",
-            "created_at": "2026-04-21T02:05:13.590286Z"
+            "created_at": "2026-04-20T04:23:48.074868Z"
         },
         {
             "id": "CVE-2024-34064",
@@ -483,7 +483,7 @@
             "reference": null,
             "state": "open",
             "workflow_state": "open",
-            "created_at": "2026-04-21T02:05:13.590288Z"
+            "created_at": "2026-04-20T04:23:48.074870Z"
         },
         {
             "id": "CVE-2024-56326",
@@ -494,7 +494,7 @@
             "reference": null,
             "state": "open",
             "workflow_state": "open",
-            "created_at": "2026-04-21T02:05:13.590289Z"
+            "created_at": "2026-04-20T04:23:48.074871Z"
         },
         {
             "id": "CVE-2024-56201",
@@ -505,7 +505,7 @@
             "reference": null,
             "state": "open",
             "workflow_state": "open",
-            "created_at": "2026-04-21T02:05:13.590291Z"
+            "created_at": "2026-04-20T04:23:48.074873Z"
         },
         {
             "id": "CVE-2025-27516",
@@ -516,7 +516,7 @@
             "reference": null,
             "state": "open",
             "workflow_state": "open",
-            "created_at": "2026-04-21T02:05:13.590293Z"
+            "created_at": "2026-04-20T04:23:48.074875Z"
         }
     ]
 }
