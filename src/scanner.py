@@ -1,4 +1,5 @@
 import json
+import sys
 import argparse
 from datetime import datetime, timezone
 
@@ -50,7 +51,11 @@ def main():
 
     selected_scanner = SCANNERS[args.scanner]
 
-    raw_results = selected_scanner(args.requirements)
+    try:
+        raw_results = selected_scanner(args.requirements)
+    except RuntimeError as e:
+        print(f"[-] Scanner error: {e}")
+        sys.exit(1)
     
     selected_normalizer = NORMALIZERS[args.scanner]
 
