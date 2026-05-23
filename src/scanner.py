@@ -12,6 +12,12 @@ from src.normalizers.trivy import normalize_trivy
 from src.scanners.osv import run_osv
 from src.normalizers.osv import normalize_osv
 
+from src.scanners.safety import run_safety
+from src.normalizers.safety import normalize_safety
+
+from src.scanners.grype import run_grype
+from src.normalizers.grype import normalize_grype
+
 from src.family_classifier import classify_family
 from src.deduplicator import group_vulnerabilities
 from src.risk_engine import calculate_risk
@@ -21,14 +27,19 @@ from src.reporters import write_report_formats
 SCANNERS = {
     "pip-audit": run_pip_audit,
     "trivy": run_trivy,
-    "osv": run_osv
+    "osv": run_osv,
+    "safety": run_safety,
+    "grype": run_grype
 }
 
 NORMALIZERS = {
     "pip-audit": normalize_pip_audit,
     "trivy": normalize_trivy,
-    "osv": normalize_osv
+    "osv": normalize_osv,
+    "safety": normalize_safety,
+    "grype": normalize_grype
 }
+
 def main():
 
     parser = argparse.ArgumentParser()

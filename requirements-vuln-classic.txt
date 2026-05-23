@@ -1,3 +1,0 @@
-# This file lists the project dependencies with vulnerable classic versions (requirements-vuln-classic.txt)
-Flask==2.3.1
-requests==2.19.0

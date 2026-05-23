@@ -10,9 +10,15 @@ def normalize_trivy(raw_data):
 
     results = raw_data.get("Results", [])
 
+    if not results:
+        return []
+
     for result in results:
 
         vulns = result.get("Vulnerabilities", [])
+        
+        if not vulns:
+            continue
 
         for vuln in vulns:
 

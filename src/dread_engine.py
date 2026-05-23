@@ -1,162 +1,104 @@
-def calculate_dread(description: str, family: str) -> dict:
+import re
 
+def calculate_dread(description: str, family: str) -> dict:
+    """
+    Calcula el riesgo DREAD de forma robusta usando pesos ponderados,
+    análisis de vectores de ataque y mitigaciones mencionadas.
+    """
     if not description:
         return {
-            "damage": 5,
-            "reproducibility": 5,
-            "exploitability": 5,
-            "affected_users": 5,
-            "discoverability": 5,
-            "score": 5.0,
-            "severity": "MODERATE"
+            "damage": 5, "reproducibility": 5, "exploitability": 5,
+            "affected_users": 5, "discoverability": 5,
+            "score": 5.0, "severity": "MODERATE"
         }
 
-    text = (description or "").lower()
-    family = (family or "").lower()
+    text = description.lower()
+    fam = (family or "").lower()
 
-    damage = 5
-    reproducibility = 5
-    exploitability = 5
-    affected_users = 5
-    discoverability = 5
+    # --- 1. DICCIONARIOS DE INTELIGENCIA DE AMENAZAS ---
+    KEYWORDS = {
+        "damage": {
+            10: ["rce", "remote code execution", "arbitrary code", "command injection", "sandbox escape", "root", "kernel"],
+            8: ["sql injection", "authentication bypass", "privilege escalation", "ssrf", "account takeover"],
+            6: ["dos", "denial of service", "directory traversal", "path traversal", "xss", "cross-site scripting"],
+            4: ["info leak", "disclosure", "version leakage", "headers"]
+        },
+        "exploitability": {
+            10: ["unauthenticated", "remote attacker", "no interaction", "zero-click", "easy"],
+            7: ["authenticated", "network access", "user interaction required", "complex"],
+            4: ["local access", "physical access", "specific configuration"]
+        },
+        "reproducibility": {
+            10: ["public exploit", "poc available", "metasploit", "stable", "deterministic"],
+            7: ["crafted request", "malicious input", "timing attack"],
+            3: ["race condition", "intermittent", "unstable", "hard to reproduce"]
+        }
+    }
 
-    # =========================
-    # DAMAGE
-    # =========================
-    if any(keyword in text for keyword in [
-        "remote code execution",
-        "arbitrary code execution",
-        "rce",
-        "sandbox escape",
-        "privilege escalation"
-    ]):
-        damage = 10
+    # --- 2. LÓGICA DE EXTRACCIÓN DE VALORES ---
+    
+    def get_score(category_dict, default=5):
+        for score, keywords in sorted(category_dict.items(), reverse=True):
+            if any(k in text for k in keywords):
+                return score
+        return default
 
-    elif any(keyword in text for keyword in [
-        "credential leak",
-        "man-in-the-middle",
-        "authentication bypass"
-    ]):
-        damage = 8
+    d = get_score(KEYWORDS["damage"])
+    e = get_score(KEYWORDS["exploitability"])
+    r = get_score(KEYWORDS["reproducibility"])
+    
+    # AFFECTED USERS (A): Basado en el impacto sistémico
+    a = 5
+    if any(k in text for k in ["all users", "global", "default", "root", "admin"]): a = 10
+    elif any(k in text for k in ["specific", "non-default", "optional"]): a = 3
 
-    elif any(keyword in text for keyword in [
-        "denial of service",
-        "dos"
-    ]):
-        damage = 6
+    # DISCOVERABILITY (I): Basado en la madurez de la información
+    i = 5
+    if any(k in text for k in ["cve-", "ghsa-", "public advisory"]): i = 10
+    elif "undisclosed" in text or "hidden" in text: i = 3
 
-    # =========================
-    # REPRODUCIBILITY
-    # =========================
-    if any(keyword in text for keyword in [
-        "predictable filename",
-        "public exploit",
-        "easily exploitable"
-    ]):
-        reproducibility = 9
+    # --- 3. REGLAS DE NEGOCIO AVANZADAS (Vectores Críticos) ---
+    # Si es RCE y es Remoto, el daño es máximo y la explotabilidad sube
+    if d == 10 and e >= 7:
+        e = 10
+        r = max(r, 8)
+    
+    # Penalización por mitigaciones mencionadas (False Positive Reduction)
+    if any(k in text for k in ["requires manual configuration", "not enabled by default", "difficult to exploit"]):
+        e = max(1, e - 3)
+        r = max(1, r - 2)
 
-    elif any(keyword in text for keyword in [
-        "crafted url",
-        "malicious request"
-    ]):
-        reproducibility = 7
+    # --- 4. CÁLCULO PONDERADO ---
+    # D:30%, R:20%, E:25%, A:15%, I:10%
+    weighted_score = (
+        (d * 3.0) + 
+        (r * 2.0) + 
+        (e * 2.5) + 
+        (a * 1.5) + 
+        (i * 1.0)
+    ) / 10
 
-    # =========================
-    # EXPLOITABILITY
-    # =========================
-    if any(keyword in text for keyword in [
-        "remote attacker",
-        "unauthenticated attacker"
-    ]):
-        exploitability = 9
+    # --- 5. BOOSTS POR FAMILIA (Contexto del DAP) ---
+    family_boosts = {
+        "rce": 1.5,
+        "injection": 1.0,
+        "broken_auth": 1.0,
+        "sensitive_data": 0.8,
+        "ssrf": 0.8,
+        "dos": 0.3
+    }
+    
+    final_score = weighted_score + family_boosts.get(fam, 0)
+    final_score = round(min(final_score, 10.0), 2)
 
-    elif any(keyword in text for keyword in [
-        "local attacker"
-    ]):
-        exploitability = 5
+    # --- 6. CATEGORIZACIÓN DE SEVERIDAD ---
+    if final_score >= 9.0: severity = "CRITICAL"
+    elif final_score >= 7.0: severity = "HIGH"
+    elif final_score >= 4.0: severity = "MODERATE"
+    else: severity = "LOW"
 
-    # =========================
-    # AFFECTED USERS
-    # =========================
-    if any(keyword in text for keyword in [
-        "all users",
-        "all applications",
-        "widely used"
-    ]):
-        affected_users = 9
-
-    elif any(keyword in text for keyword in [
-        "specific configurations",
-        "specific use cases"
-    ]):
-        affected_users = 4
-
-    # =========================
-    # DISCOVERABILITY
-    # =========================
-    if any(keyword in text for keyword in [
-        "public advisory",
-        "cve",
-        "known vulnerability"
-    ]):
-        discoverability = 9
-
-    elif any(keyword in text for keyword in [
-        "hard to discover"
-    ]):
-        discoverability = 3
-
-    # =========================
-    # BASE SCORE
-    # =========================
-    score = round(
-        (
-            damage +
-            reproducibility +
-            exploitability +
-            affected_users +
-            discoverability
-        ) / 5,
-        2
-    )
-
-    # =========================
-    # FAMILY BOOST
-    # =========================
-    if family in ["rce", "sandbox_escape"]:
-        score += 2
-
-    elif family in ["credential_leak", "ssrf"]:
-        score += 1.5
-
-    elif family in ["dos"]:
-        score += 0.5
-
-    # Clamp score
-    if score > 10:
-        score = 10
-
-    # =========================
-    # SEVERITY
-    # =========================
-    if score >= 8:
-        severity = "CRITICAL"
-    elif score >= 6:
-        severity = "HIGH"
-    elif score >= 4:
-        severity = "MODERATE"
-    else:
-        severity = "LOW"
-
-    # =========================
-    # RETURN
-    # =========================
     return {
-        "damage": damage,
-        "reproducibility": reproducibility,
-        "exploitability": exploitability,
-        "affected_users": affected_users,
-        "discoverability": discoverability,
-        "score": score,
-        "severity": severity
+        "damage": d, "reproducibility": r, "exploitability": e,
+        "affected_users": a, "discoverability": i,
+        "score": final_score, "severity": severity
     }
