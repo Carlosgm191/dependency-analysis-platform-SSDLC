@@ -1,13 +1,27 @@
-name: DAP Security Pipeline
+name: DAP Security & DevSecOps Pipeline
 
 on:
   push:
-    branches: [main]
+    branches: [main, develop]
   pull_request:
     branches: [main]
 
 jobs:
-  dependency-scan:
+  # ETAPA 1: Búsqueda de secretos (No permite avanzar si hay leaks)
+  secrets-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0 # Necesario para escanear todo el historial
+      - name: Gitleaks Scan
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  # ETAPA 2: Análisis de Dependencias y Aplicación de DREAD
+  security-analysis:
+    needs: secrets-scan
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -17,48 +31,71 @@ jobs:
         with:
           python-version: "3.10"
 
-      - name: Install audit tools
+      - name: Install Dependencies
         run: |
-          pip install pip-audit
+          pip install -r requirements.txt
+          pip install pip-audit grype trivy # Asegúrate de tener los binarios/libs
 
-      - name: Run pip-audit and save JSON
+      - name: Run Multi-Scanner DAP
         run: |
-          pip-audit -f json > pip_audit.json
+          # Ejecutamos tu scanner principal que ya integra Grype, OSV, etc.
+          python -m src.scanner --requirements requirements.txt --output report.json
 
-      - name: Fail on high or critical vulnerabilities
+      - name: DREAD Gate Keeper (Fail-Build Logic)
         run: |
           python - <<'PY'
           import json
-          data = json.load(open('pip_audit.json'))
-          deps = data.get('dependencies', data if isinstance(data, list) else [])
-          vuln_items = []
-          for dep in deps:
-              for vuln in dep.get('vulns', []):
-                  severity = vuln.get('severity')
-                  if not severity:
-                      vid = vuln.get('id', '').upper()
-                      if vid.startswith('CVE-') or vid.startswith('PYSEC-'):
-                          severity = 'HIGH'
-                      else:
-                          severity = 'LOW'
-                  if severity.upper() in ('HIGH', 'CRITICAL'):
-                      vuln_items.append(vuln)
-          if vuln_items:
-              print(f"Found {len(vuln_items)} high/critical vulnerabilities")
-              raise SystemExit(1)
+          import sys
+          try:
+              with open('db_scan_results.json') as f:
+                  data = json.load(f)
+              
+              # Buscamos si alguna vulnerabilidad supera el umbral crítico de DREAD
+              CRITICAL_THRESHOLD = 8.5
+              critical_findings = [v for v in data if v.get('dread_score', 0) >= CRITICAL_THRESHOLD]
+              
+              if critical_findings:
+                  print(f"\n[!] SECURITY GATE FAILED")
+                  print(f"[!] Found {len(critical_findings)} vulnerabilities with DREAD score >= {CRITICAL_THRESHOLD}")
+                  for v in critical_findings:
+                      print(f"    - {v['vuln_id']} in {v['package']} (Score: {v['dread_score']})")
+                  sys.exit(1)
+              
+              print("\n[+] Security Gate Passed: No critical DREAD scores found.")
+          except FileNotFoundError:
+              print("[-] No scan results found to analyze.")
+              sys.exit(1)
           PY
 
-      - name: Run DAP scanner
-        run: |
-          python -m src.scanner --requirements requirements.txt
-          cat db_scan_results.json
+      - name: Upload Scan Report
+        if: always() # Sube el reporte incluso si el gate falla
+        uses: actions/upload-artifact@v3
+        with:
+          name: dap-security-reports
+          path: |
+            db_scan_results.json
+            pip_audit.json
 
-  semgrep-security-scan:
+      - name: Generate Markdown Report
+        if: always() # Queremos el reporte incluso si el Gate Keeper falló
+        run: python src/utils/report_gen.py
+
+      - name: Post PR Comment
+        if: github.event_name == 'pull_request' && always()
+        uses: mshick/add-pr-comment@v2
+        with:
+          message-path: dap_report.md
+          allow-repeats: false # Actualiza el mismo comentario en lugar de inundar el PR
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  # ETAPA 3: Análisis Estático (SAST)
+  sast-scan:
+    needs: secrets-scan
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-
-      - name: Run Semgrep
+      - name: Semgrep Scan
         uses: returntocorp/semgrep-action@v1
         with:
           config: "p/default"

@@ -1,51 +1,70 @@
-# Dependency Analysis Platform (DAP)
+# Dependency Analysis Platform (DAP) 🛡️
 
-[![DevSecOps Pipeline](https://github.com/Carlosgm191/dependency-analysis-platform-SSDLC/actions/workflows/security.yml/badge.svg)](https://github.com/Carlosgm191/dependency-analysis-platform-SSDLC/actions/workflows/security.yml)
-![Python Version](https://img.shields.io/badge/python-3.9%2B-blue)
+[![DevSecOps Pipeline](https://github.com/Carlosgm191/dependency-analysis-platform-SSDLC/actions/workflows/security-pipeline.yml/badge.svg)](https://github.com/Carlosgm191/dependency-analysis-platform-SSDLC/actions/workflows/security-pipeline.yml)
+![Python Version](https://img.shields.io/badge/python-3.10%2B-blue)
+![Architecture](https://img.shields.io/badge/Architecture-3--Layer%20SSDLC-brightgreen)
+![Risk Engine](https://img.shields.io/badge/Risk%20Engine-Weighted%20DREAD-orange)
 
-## Project Overview
+## 🎯 Executive Summary
 
-This repository contains a working prototype for Milestone 2: a dependency vulnerability scanner with risk scoring and pipeline evidence.
+The **Dependency Analysis Platform (DAP)** is a comprehensive Security Orchestration and Response prototype specialized in **Software Composition Analysis (SCA)**. Built as a core component for a Secure Software Development Life Cycle (SSDLC), DAP unifies findings from 5 industry-standard scanners and applies a sophisticated **Weighted DREAD Risk Model** to prioritize vulnerabilities based on actual environmental risk rather than static severity scores.
 
-The **Dependency Analysis Platform (DAP)** is a security orchestration prototype that automates the ingestion, parsing, and prioritization of software vulnerabilities from dependency analysis tools. This project is built for the SSDLC course and demonstrates how to manage findings, calculate risk, and integrate security controls into a CI/CD pipeline.
+---
+
+## 🚀 Key Technical Features
+
+* **Multi-Engine Orchestration:** Simultaneously manages and normalizes outputs from `Grype`, `Trivy`, `OSV-Scanner`, `pip-audit`, and `Safety`.
+* **Advanced DREAD Engine:** Custom scoring logic assessing Damage, Reproducibility, Exploitability, Affected Users, and Discoverability.
+* **DevSecOps Governance:** Automated "Security Gates" that fail CI/CD builds if the **DREAD Score** exceeds critical thresholds.
+* **Shift-Left PR Feedback:** Automated Markdown audit reports injected directly into Pull Request comments via GitHub Actions.
+* **Secrets Detection:** Integrated `Gitleaks` stage to prevent credential exposure in the Git history.
+
+---
+
+## 🏗️ System Architecture: The 3-Layer Approach
+
+### 🔹 Layer 1: Multi-Scanner Orchestration
+DAP provides an abstraction layer for security tooling. It executes multiple scanners to eliminate vendor blind spots and parses various formats (JSON, SARIF) into a unified, strictly typed `Vulnerability` model.
+
+### 🔹 Layer 2: Risk Intelligence (Weighted DREAD)
+The platform evolves beyond standard CVSS by using a weighted risk formula that prioritizes impact and exploitability:
+
+$$Score = \frac{(Damage \times 3.0) + (Reproducibility \times 2.0) + (Exploitability \times 2.5) + (Affected Users \times 1.5) + (Discoverability \times 1.0)}{10}$$
+
+* **Contextual Escalation:** Automatically identifies "Wormable" threats (Remote + Unauthenticated + RCE) and adjusts scores to maximum critical levels.
+* **False Positive Mitigation:** Analyzes scan descriptions for mitigation keywords (e.g., "non-default config required") to intelligently penalize exploitability.
+
+### 🔹 Layer 3: DevSecOps Automation Pipeline
+A fully automated workflow integrated into GitHub Actions:
+1.  **Secrets Guard:** Scans commits for API keys/secrets before analysis begins.
+2.  **SCA Orchestration:** Runs the tool suite and normalizes results.
+3.  **Governance Gate:** Evaluates the **DREAD Score**. If any finding $\ge 8.5$, the build is failed.
+4.  **Interactive Audit:** Publishes a Markdown summary in the PR to streamline developer remediation.
+
+---
 
 ## 📊 Milestone 2: Evidence Dashboard
 
-| Goal | Evidence | Verification |
+| Goal | Implementation | Verification |
 | :--- | :--- | :--- |
-| **Active Repository** | Git History | [Commits](https://github.com/Carlosgm191/dependency-analysis-platform-SSDLC/commits/main) |
-| **Functional Scanner** | Local CLI | Run `python src/scanner.py` and inspect `db_scan_results.json` |
-| **Vulnerability Scoring** | Risk Report | `weighted_risk_score` and `risk_level` in `db_scan_results.json` |
-| **Dependency Scanning** | CI Job | `.github/workflows/security.yml` runs `pip-audit` |
-| **Static Analysis** | CI Job | `.github/workflows/security-pipeline.yml` runs `Semgrep` |
-| **Threat Modeling** | Documentation | See `docs/THREAT_MODEL.md` |
-
-## System Architecture & 3-Layer Implementation
-
-### Layer 1: Core Scanner & Parser
-The engine reads dependency manifests and normalizes vulnerability findings into a structured report.
-
-- **Input:** `requirements.txt` or imported JSON scan results
-- **Scanner:** executes `pip-audit`
-- **Parser:** converts tool output into standardized findings
-- **Output:** `db_scan_results.json`
-
-### Layer 2: SSDLC Security & Risk Scoring
-The platform enriches findings with risk scoring and tracking metadata.
-
-- **Risk scoring:** converts severities into a `weighted_risk_score`
-- **Risk levels:** `GREEN`, `YELLOW`, `RED`
-- **Vulnerability states:** `open`, `in_progress`, `resolved`
-- **Threat model:** documented in `docs/THREAT_MODEL.md`
-
-### Layer 3: DevSecOps Automation
-Security checks are integrated into GitHub Actions.
-
-- **Dependency scanning:** `pip-audit`
-- **Static scanning:** `Semgrep`
-- **Quality gate:** pipeline is configured to fail when findings indicate serious risk
+| **Scanner Orchestration** | 5 Engines Integrated | See `src/scanners/` & `src/scanner.py` |
+| **Risk Scoring** | Weighted DREAD Engine | Logic in `src/dread_engine.py` |
+| **CI/CD Integration** | DevSecOps Pipeline | `.github/workflows/security-pipeline.yml` |
+| **Supply Chain Security** | Gitleaks Integration | Pipeline job: `secrets-scan` |
+| **Developer Feedback** | Automated PR Comments | `src/utils/report_gen.py` output in PRs |
 
 ---
+
+## 🛠️ Installation & Usage
+
+### Prerequisites
+Ensure you have Python 3.10+ and the required binary scanners (Grype/Trivy) installed in your environment.
+
+```bash
+# Clone and enter repository
+git clone [https://github.com/Carlosgm191/dependency-analysis-platform-SSDLC.git](https://github.com/Carlosgm191/dependency-analysis-platform-SSDLC.git)
+cd dependency-analysis-platform-SSDLC
+```
 
 ## How to Run
 
@@ -96,5 +115,5 @@ python -m src.scanner --requirements requirements-safe.txt
 python -m src.scanner --requirements requirements-mixed.txt
 
 # Intentionally vulnerable profile
-python -m src.scanner --requirements requirements-vuln-classic.txt
+python -m src.scanner --requirements requirements-vuln.txt
 ```

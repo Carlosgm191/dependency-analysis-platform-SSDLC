@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json.schemastore.org/sarif-2.1.0.json",
+  "version": "2.1.0",
+  "runs": [
+    {
+      "tool": {
+        "driver": {
+          "name": "Dependency Analysis Platform",
+          "informationUri": "https://github.com/Carlosgm191/dependency-analysis-platform-SSDLC",
+          "rules": []
+        }
+      },
+      "results": []
+    }
+  ]
+}

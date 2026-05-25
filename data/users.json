@@ -94,5 +94,20 @@
       "tag": "2b2d61825a0cc7fc249020d45a0e627e"
     },
     "created_at": "2026-04-21T20:53:28.441260"
+  },
+  {
+    "id": "4c78ea21-c5fc-4dcd-b05a-6ae478043f4c",
+    "full_name": "correo",
+    "email": "corre@correo.com",
+    "phone": "3208910291",
+    "password": {
+      "algorithm": "pbkdf2_sha256",
+      "iterations": 200000,
+      "salt": "0bc2b66c0f0d906d808a63f88cade359",
+      "hash": "88e590c42d70dac2a80ae589aec6d21759f38dfccd67161733acd38b0d9a9d85"
+    },
+    "twofa_enabled": false,
+    "twofa_secret": null,
+    "created_at": "2026-05-25T15:21:24.085178"
   }
 ]
