@@ -1,113 +1,180 @@
-import argparse
 import json
-import subprocess
 from datetime import datetime, timezone
-from .parser import calculate_custom_risk_score, normalize_tool_report
+
+from src.scanners.pip_audit import run_pip_audit
+from src.normalizers.pip_audit import normalize_pip_audit
+
+from src.scanners.trivy import run_trivy
+from src.normalizers.trivy import normalize_trivy
+
+from src.scanners.osv import run_osv
+from src.normalizers.osv import normalize_osv
+
+from src.scanners.safety import run_safety
+from src.normalizers.safety import normalize_safety
+
+from src.scanners.grype import run_grype
+from src.normalizers.grype import normalize_grype
+
+from src.family_classifier import classify_family
+from src.deduplicator import group_vulnerabilities
+from src.risk_engine import calculate_risk
+from src.dread_engine import calculate_dread
 
 
-def determine_risk_level(vulnerabilities):
-    severities = {v.get("severity", "LOW").upper() for v in vulnerabilities}
-    if "CRITICAL" in severities or "HIGH" in severities:
-        return "RED"
-    if "MODERATE" in severities:
-        return "YELLOW"
-    return "GREEN"
+SCANNERS = {
+
+    "pip-audit": run_pip_audit,
+
+    "trivy": run_trivy,
+
+    "osv": run_osv,
+
+    "safety": run_safety,
+
+    "grype": run_grype
+}
 
 
-def run_pipaudit_scan(requirements_file):
-    try:
-        result = subprocess.run(
-            ['pip-audit', '-r', requirements_file, '-f', 'json'],
-            capture_output=True,
-            text=True,
-            timeout=60
-        )
-    except FileNotFoundError:
-        print("[!] pip-audit not installed")
-        return []
-    except subprocess.TimeoutExpired:
-        print("[!] scan timeout")
-        return []
+NORMALIZERS = {
 
-    stdout = result.stdout or ""
+    "pip-audit": normalize_pip_audit,
 
-    if not stdout.strip():
-        return []
+    "trivy": normalize_trivy,
 
-    try:
-        raw = json.loads(stdout)
-    except json.JSONDecodeError:
-        return []
+    "osv": normalize_osv,
 
-    return normalize_tool_report(raw, "pipaudit")
+    "safety": normalize_safety,
+
+    "grype": normalize_grype
+}
 
 
-def load_json_report(file_path, input_type):
-    with open(file_path, "r", encoding="utf-8") as f:
-        raw = json.load(f)
-    return normalize_tool_report(raw, input_type)
+def determine_risk_level(score):
+
+    if score < 5:
+        return "LOW"
+
+    elif score < 15:
+        return "MODERATE"
+
+    elif score < 25:
+        return "HIGH"
+
+    return "CRITICAL"
 
 
-def enrich_vulnerabilities(vulnerabilities):
-    enriched = []
+def run_scan_pipeline(scanner_name, requirements_file):
+
+    selected_scanner = SCANNERS[scanner_name]
+
+    raw_results = selected_scanner(requirements_file)
+
+    selected_normalizer = NORMALIZERS[scanner_name]
+
+    vulnerabilities = selected_normalizer(raw_results)
 
     for vuln in vulnerabilities:
-        if not isinstance(vuln, dict):
-            continue
 
-        vuln.setdefault("state", "open")
-        vuln.setdefault("workflow_state", "open")
-        vuln.setdefault(
-            "created_at",
-            datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
+        detected_family = classify_family(
+            vuln.description
         )
 
-        enriched.append(vuln)
+        vuln.family = detected_family
 
-    return enriched
+        dread_result = calculate_dread(
+
+            vuln.description,
+
+            detected_family
+        )
+
+        vuln.dread = dread_result
+
+        vuln.dread_score = dread_result["score"]
+
+        vuln.severity = dread_result["severity"]
+
+    grouped = group_vulnerabilities(
+        vulnerabilities
+    )
+
+    report = build_report(
+        vulnerabilities,
+        grouped,
+        scanner_name
+    )
+
+    return report
 
 
-def build_report(vulnerabilities):
-    risk_data = calculate_custom_risk_score(vulnerabilities)
+def build_report(vulnerabilities, grouped, scanner_name):
+
+    risk_score = calculate_risk(grouped)
 
     summary = {
-        "CRITICAL": sum(1 for v in vulnerabilities if v.get("severity") == "CRITICAL"),
-        "HIGH": sum(1 for v in vulnerabilities if v.get("severity") == "HIGH"),
-        "MODERATE": sum(1 for v in vulnerabilities if v.get("severity") == "MODERATE"),
-        "LOW": sum(1 for v in vulnerabilities if v.get("severity") == "LOW"),
+
+        "CRITICAL": sum(
+            1 for v in vulnerabilities
+            if v.severity == "CRITICAL"
+        ),
+
+        "HIGH": sum(
+            1 for v in vulnerabilities
+            if v.severity == "HIGH"
+        ),
+
+        "MODERATE": sum(
+            1 for v in vulnerabilities
+            if v.severity == "MODERATE"
+        ),
+
+        "LOW": sum(
+            1 for v in vulnerabilities
+            if v.severity == "LOW"
+        )
     }
+
+    details = []
+
+    for vuln in vulnerabilities:
+
+        details.append({
+
+            "id": vuln.vuln_id,
+
+            "package": vuln.package,
+
+            "severity": vuln.severity,
+
+            "description": vuln.description,
+
+            "family": vuln.family,
+
+            "dread_score": vuln.dread_score
+        })
 
     return {
+
         "project_name": "Dependency Analysis Platform",
-        "scan_date": datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%SZ"),
-        "weighted_risk_score": risk_data["weighted_score"],
-        "risk_level": determine_risk_level(vulnerabilities),
+
+        "scanner": scanner_name,
+
+        "scan_date": datetime.now(
+            timezone.utc
+        ).isoformat(),
+
+        "weighted_risk_score": risk_score,
+
+        "risk_level": determine_risk_level(
+            risk_score
+        ),
+
         "status": "FAILED" if vulnerabilities else "PASSED",
-        "critical_issues": risk_data["critical_issues"],
+
+        "critical_issues": summary["CRITICAL"],
+
         "vulnerability_summary": summary,
-        "details": vulnerabilities,
+
+        "details": details
     }
-
-
-# CLI opcional (NO guarda archivo)
-def main():
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--requirements", default="requirements.txt")
-    parser.add_argument("--input-json")
-    parser.add_argument("--input-type", default="pipaudit")
-
-    args = parser.parse_args()
-
-    if args.input_json:
-        vulnerabilities = load_json_report(args.input_json, args.input_type)
-    else:
-        vulnerabilities = run_pipaudit_scan(args.requirements)
-
-    vulnerabilities = enrich_vulnerabilities(vulnerabilities)
-    report = build_report(vulnerabilities)
-
-    print(f"[+] Scan done. Score: {report['weighted_risk_score']}")
-
-
-if __name__ == "__main__":
-    main()

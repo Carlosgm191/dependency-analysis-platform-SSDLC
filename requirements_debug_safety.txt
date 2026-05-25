@@ -1,0 +1,8 @@
+# Testing requirements with known vulnerabilities
+# Using old versions to ensure Safety finds issues
+requests==2.2.1
+flask==0.8
+django==1.8.0
+urllib3==1.7
+pyyaml==3.10
+cryptography==0.5

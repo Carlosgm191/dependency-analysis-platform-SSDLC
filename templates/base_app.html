@@ -1,39 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
   <meta charset="UTF-8">
+
   <title>DependShield</title>
 
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/static/styles.css">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet"
+  >
+
+  <link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='styles.css') }}"
+  >
+
 </head>
 
 <body>
 
-<div class="layout">
+  {% block content %}
 
-  <div class="sidebar">
-    <h2>🛡 DependShield</h2>
-
-    <a href="/dashboard">Dashboard</a>
-    <a href="/history">History</a>
-  </div>
-
-  <div class="main">
-
-    <div class="topbar">
-      <h2>Dependency Analysis Platform</h2>
-
-      <form method="POST" action="/logout">
-        <button class="btn">Logout</button>
-      </form>
-    </div>
-
-    {% block content %}{% endblock %}
-
-  </div>
-
-</div>
+  {% endblock %}
 
 </body>
+
 </html>

@@ -1,0 +1,158 @@
+{% extends "base_app.html" %}
+
+{% block content %}
+
+<div class="dashboard-layout">
+
+  <!-- SIDEBAR -->
+
+  <aside class="sidebar">
+
+    <div>
+
+      <div class="brand">
+
+        <h2>🛡 DependShield</h2>
+
+        <p>Dependency Analysis Platform</p>
+
+      </div>
+
+      <nav class="sidebar-nav">
+
+        <a href="/dashboard">
+          Dashboard
+        </a>
+
+        <a href="/history" class="active">
+          History
+        </a>
+
+      </nav>
+
+    </div>
+
+    <div class="sidebar-footer">
+
+      <p>SYSTEM STATUS</p>
+
+      <div>
+
+        <span class="status-dot"></span>
+
+        All scanners active
+
+      </div>
+
+    </div>
+
+  </aside>
+
+  <!-- MAIN -->
+
+  <main class="dashboard-main">
+
+    <div class="dashboard-header">
+
+      <div>
+
+        <h1>Scan History</h1>
+
+        <p>
+          Monitor and audit previous scans
+        </p>
+
+      </div>
+
+    </div>
+
+    <div class="vuln-panel">
+
+      <div class="panel-header">
+
+        <h2>Assessment Logs</h2>
+
+      </div>
+
+      <table>
+
+        <thead>
+
+          <tr>
+
+            <th>Date</th>
+            <th>Scanner</th>
+            <th>Risk Score</th>
+            <th>Risk Level</th>
+            <th>Status</th>
+            <th>Action</th>
+
+          </tr>
+
+        </thead>
+
+        <tbody>
+
+          {% for scan in scans %}
+
+          <tr>
+
+            <td>
+
+              {{ scan.scan_date }}
+
+            </td>
+
+            <td>
+
+              {{ scan.scanner }}
+
+            </td>
+
+            <td>
+
+              {{ scan.weighted_risk_score }}
+
+            </td>
+
+            <td>
+
+              <span class="severity-badge sev-{{ scan.risk_level|lower }}">
+
+                {{ scan.risk_level }}
+
+              </span>
+
+            </td>
+
+            <td>
+
+              {{ scan.status }}
+
+            </td>
+
+            <td>
+
+              <a href="{{ url_for('dashboard', scan_id=scan.scan_id) }}">
+
+                View
+
+              </a>
+
+            </td>
+
+          </tr>
+
+          {% endfor %}
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </main>
+
+</div>
+
+{% endblock %}
