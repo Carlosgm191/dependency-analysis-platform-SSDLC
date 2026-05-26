@@ -1,0 +1,8 @@
+Flask==3.1.3
+pyotp
+qrcode
+Pillow
+pycryptodome
+requests
+pip-audit
+safety

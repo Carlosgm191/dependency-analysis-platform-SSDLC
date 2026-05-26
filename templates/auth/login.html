@@ -1,0 +1,47 @@
+{% extends "base_auth.html" %}
+{% block title %}Login - DependShield{% endblock %}
+
+{% block content %}
+
+<div class="container">
+
+  <div class="logo">🛡 DependShield</div>
+  <h2>Secure Gateway</h2>
+  <p class="subtitle">
+    Enterprise-grade dependency analysis & risk visualization platform.
+  </p>
+
+  <div class="card">
+    <form method="POST">
+
+      <div class="input-group">
+        <label>Email</label>
+        <input name="email">
+      </div>
+
+      <div class="input-group">
+        <label>Password</label>
+        <input type="password" name="password">
+      </div>
+
+      <button class="btn">Sign In →</button>
+
+    </form>
+
+    <div class="link">
+      NEW TO DEPENDSHIELD?
+    </div>
+
+    <a href="/register" class="btn-outline">
+      Create an enterprise account
+    </a>
+
+    <div class="footer">
+      🔒 Encrypted session active
+    </div>
+
+  </div>
+
+</div>
+
+{% endblock %}

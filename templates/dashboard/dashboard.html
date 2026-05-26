@@ -1,0 +1,363 @@
+{% extends "base_app.html" %}
+
+{% block content %}
+
+<div class="dashboard-layout">
+
+  <!-- SIDEBAR -->
+
+  <aside class="sidebar">
+
+    <div>
+
+      <div class="brand">
+
+        <h2>🛡 DependShield</h2>
+
+        <p>
+          Dependency Analysis Platform
+        </p>
+
+      </div>
+
+      <nav class="sidebar-nav">
+
+        <a href="/dashboard" class="active">
+          Dashboard
+        </a>
+
+        <a href="/history">
+          History
+        </a>
+
+      </nav>
+
+    </div>
+
+    <div class="sidebar-footer">
+
+      <p>
+        SYSTEM STATUS
+      </p>
+
+      <div>
+
+        <span class="status-dot"></span>
+
+        All scanners active
+
+      </div>
+
+    </div>
+
+  </aside>
+
+  <!-- MAIN CONTENT -->
+
+  <main class="dashboard-main">
+
+    <!-- HEADER -->
+
+    <div class="dashboard-header">
+
+      <div>
+
+        <h1>
+          Security Overview
+        </h1>
+
+        <p>
+          Real-time dependency risk landscape
+        </p>
+
+      </div>
+
+      <div class="header-actions">
+
+        {% if twofa_enabled %}
+
+        <span class="badge success">
+          2FA Enabled
+        </span>
+
+        {% else %}
+
+        <a href="{{ url_for('setup_2fa') }}"
+           class="btn-secondary">
+
+          Activate 2FA
+
+        </a>
+
+        {% endif %}
+
+        <form action="{{ url_for('logout') }}"
+              method="post">
+
+          <button class="btn-danger">
+
+            Logout
+
+          </button>
+
+        </form>
+
+      </div>
+
+    </div>
+
+    <!-- SCAN PANEL -->
+
+    <div class="scan-panel">
+
+      <form action="{{ url_for('run_scan') }}"
+            method="post"
+            enctype="multipart/form-data">
+
+        <input
+          type="file"
+          name="requirements_file"
+          required
+        >
+
+        <select name="scanner">
+
+          <option value="pip-audit">
+            Pip Audit
+          </option>
+
+          <option value="trivy">
+            Trivy
+          </option>
+
+          <option value="osv">
+            OSV
+          </option>
+
+          <option value="safety">
+            Safety
+          </option>
+
+          <option value="grype">
+            Grype
+          </option>
+
+        </select>
+
+        <button type="submit"
+                class="scan-btn">
+
+          Run New Scan
+
+        </button>
+
+      </form>
+
+    </div>
+
+    {% if data %}
+
+    <!-- METRICS -->
+
+    <div class="metrics-grid">
+
+      <div class="metric-card">
+
+        <span>
+          Overall Risk Score
+        </span>
+
+        <h2>
+          {{ data.weighted_risk_score }}/100
+        </h2>
+
+      </div>
+
+      <div class="metric-card">
+
+        <span>
+          Risk Level
+        </span>
+
+        <h2>
+          {{ data.risk_level }}
+        </h2>
+
+      </div>
+
+      <div class="metric-card">
+
+        <span>
+          Critical Issues
+        </span>
+
+        <h2>
+          {{ data.vulnerability_summary.CRITICAL }}
+        </h2>
+
+      </div>
+
+      <div class="metric-card">
+
+        <span>
+          Total Vulnerabilities
+        </span>
+
+        <h2>
+          {{ data.details|length }}
+        </h2>
+
+      </div>
+
+    </div>
+
+    <!-- INSIGHT -->
+
+    <div class="insight-panel">
+
+      <h3>
+        AI Risk Insight
+      </h3>
+
+      <p>
+
+        The system detected elevated dependency risks
+        requiring remediation attention.
+
+        Scanner:
+        <strong>
+          {{ data.scanner }}
+        </strong>
+
+      </p>
+
+    </div>
+
+    <!-- TABLE -->
+
+    <div class="vuln-panel">
+
+      <div class="panel-header">
+
+        <h2>
+          Vulnerability Feed
+        </h2>
+
+      </div>
+
+      <table>
+
+        <thead>
+
+          <tr>
+
+            <th>
+              CVE ID
+            </th>
+
+            <th>
+              Package
+            </th>
+
+            <th>
+              Severity
+            </th>
+
+            <th>
+              Family
+            </th>
+
+            <th>
+              DREAD
+            </th>
+
+            <th>
+              Description
+            </th>
+
+          </tr>
+
+        </thead>
+
+        <tbody>
+
+          {% for v in data.details[:20] %}
+
+          <tr>
+
+            <td class="cve">
+
+              {{ v.id }}
+
+            </td>
+
+            <td>
+
+              {{ v.package }}
+
+            </td>
+
+            <td>
+
+              <span class="severity-badge sev-{{ v.severity|lower }}">
+
+                {{ v.severity }}
+
+              </span>
+
+            </td>
+
+            <td>
+
+              {{ v.family }}
+
+            </td>
+
+            <td>
+
+              {{ v.dread_score }}
+
+            </td>
+
+            <td>
+
+              {{ v.description[:90] }}...
+
+            </td>
+
+          </tr>
+
+          {% endfor %}
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+    {% else %}
+
+    <!-- EMPTY -->
+
+    <div class="empty-state">
+
+      <h2>
+        No scan results yet
+      </h2>
+
+      <p>
+
+        Run your first dependency security scan
+        to start monitoring vulnerabilities.
+
+      </p>
+
+    </div>
+
+    {% endif %}
+
+  </main>
+
+</div>
+
+{% endblock %}
