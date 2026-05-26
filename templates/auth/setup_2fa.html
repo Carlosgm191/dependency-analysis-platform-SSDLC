@@ -25,6 +25,7 @@
 
   <!-- FORM -->
   <form method="post" action="{{ url_for('verify_2fa_setup') }}">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
 
     <div class="input-group">
       <label>Verification Code</label>

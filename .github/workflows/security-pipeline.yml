@@ -34,7 +34,7 @@ jobs:
       - name: Install Dependencies
         run: |
           pip install -r requirements.txt
-          pip install pip-audit grype trivy # Asegúrate de tener los binarios/libs
+          pip install pip-audit trivy # Asegúrate de tener los binarios/libs
 
       - name: Install Grype
         run: |

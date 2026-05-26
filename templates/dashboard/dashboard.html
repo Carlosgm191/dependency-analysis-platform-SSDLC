@@ -93,6 +93,7 @@
 
         <form action="{{ url_for('logout') }}"
               method="post">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
 
           <button class="btn-danger">
 
@@ -113,6 +114,7 @@
       <form action="{{ url_for('run_scan') }}"
             method="post"
             enctype="multipart/form-data">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
 
         <input
           type="file"

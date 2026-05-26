@@ -5,6 +5,8 @@ from pathlib import Path
 from functools import wraps
 import os
 import uuid
+import secrets
+from hmac import compare_digest
 import pyotp
 import qrcode
 import io
@@ -51,6 +53,10 @@ from src.risk_engine import calculate_risk
 
 app = Flask(__name__)
 app.secret_key = "dev-secret-change-me"
+
+@app.context_processor
+def inject_csrf_token():
+    return {"csrf_token": get_csrf_token}
 
 BASE_DIR = Path(__file__).resolve().parent
 
@@ -116,6 +122,29 @@ def save_json(path, data):
 def normalize_email(email: str) -> str:
 
     return (email or "").strip().lower()
+
+
+def get_csrf_token():
+
+    token = session.get("csrf_token")
+
+    if not token:
+
+        token = secrets.token_urlsafe(32)
+
+        session["csrf_token"] = token
+
+    return token
+
+
+def validate_csrf_token(token: str) -> bool:
+
+    expected = session.get("csrf_token")
+
+    return bool(expected) and compare_digest(
+        str(token or ""),
+        expected
+    )
 
 
 def get_current_user():
@@ -329,6 +358,10 @@ def login():
             info_message=msg
         )
 
+    if not validate_csrf_token(request.form.get("csrf_token")):
+
+        return ("Invalid CSRF token", 400)
+
     email = request.form.get("email", "")
     password = request.form.get("password", "")
 
@@ -416,6 +449,10 @@ def verify_2fa():
             "auth/verify_2fa.html"
         )
 
+    if not validate_csrf_token(request.form.get("csrf_token")):
+
+        return ("Invalid CSRF token", 400)
+
     code = request.form.get("code")
 
     email = session.get("tmp_user")
@@ -476,6 +513,10 @@ def register():
 
             form={}
         )
+
+    if not validate_csrf_token(request.form.get("csrf_token")):
+
+        return ("Invalid CSRF token", 400)
 
     full_name = request.form.get("full_name", "")
     email = request.form.get("email", "")
@@ -647,6 +688,10 @@ def history():
 @login_required
 def run_scan():
 
+    if not validate_csrf_token(request.form.get("csrf_token")):
+
+        return ("Invalid CSRF token", 400)
+
     user_id = session.get("user_id")
 
     scans_dir = get_user_scans_dir(user_id)
@@ -803,6 +848,10 @@ def setup_2fa():
 @login_required
 def verify_2fa_setup():
 
+    if not validate_csrf_token(request.form.get("csrf_token")):
+
+        return ("Invalid CSRF token", 400)
+
     code = request.form.get("code")
 
     secret = session.get("temp_2fa_secret")
@@ -842,6 +891,10 @@ def verify_2fa_setup():
 @app.route("/logout", methods=["POST"])
 def logout():
 
+    if not validate_csrf_token(request.form.get("csrf_token")):
+
+        return ("Invalid CSRF token", 400)
+
     session.clear()
 
     return redirect(url_for("login"))
@@ -850,5 +903,7 @@ def logout():
 # START
 # ============================================
 
+DEBUG = os.environ.get("FLASK_DEBUG", "false").lower() == "true"
+
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=DEBUG)
