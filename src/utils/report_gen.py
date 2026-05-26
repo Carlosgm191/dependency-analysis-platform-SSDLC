@@ -8,6 +8,16 @@ def generate_markdown_report(json_file):
     with open(json_file, 'r') as f:
         data = json.load(f)
 
+    # Handle case where data is a string or not a list
+    if isinstance(data, str):
+        try:
+            data = json.loads(data)
+        except json.JSONDecodeError:
+            return "### ⚠️ Error: Formato de JSON inválido."
+    
+    if not isinstance(data, list):
+        return "### ⚠️ Error: Formato de datos no esperado."
+    
     if not data:
         return "### ✅ DAP: No se encontraron vulnerabilidades. ¡Buen trabajo!"
 

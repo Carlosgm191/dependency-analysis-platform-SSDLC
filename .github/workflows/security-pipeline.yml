@@ -36,6 +36,10 @@ jobs:
           pip install -r requirements.txt
           pip install pip-audit grype trivy # Asegúrate de tener los binarios/libs
 
+      - name: Install Grype
+        run: |
+          curl -sSfL https://raw.githubusercontent.com/anchore/grype/main/install.sh | sh -s -- -b /usr/local/bin
+
       - name: Run Multi-Scanner DAP
         run: |
           # Ejecutamos tu scanner principal que ya integra Grype, OSV, etc.
