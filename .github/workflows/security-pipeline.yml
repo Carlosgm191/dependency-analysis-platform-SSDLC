@@ -34,11 +34,15 @@ jobs:
       - name: Install Dependencies
         run: |
           pip install -r requirements.txt
-          pip install pip-audit trivy # Asegúrate de tener los binarios/libs
+          pip install pip-audit # Asegúrate de tener los binarios/libs
 
       - name: Install Grype
         run: |
           curl -sSfL https://raw.githubusercontent.com/anchore/grype/main/install.sh | sh -s -- -b /usr/local/bin
+
+      - name: Install Trivy
+        run: |
+          curl -sSfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sh -s -- -b /usr/local/bin
 
       - name: Run Multi-Scanner DAP
         run: |
