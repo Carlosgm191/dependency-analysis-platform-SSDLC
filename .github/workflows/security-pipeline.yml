@@ -57,9 +57,26 @@ jobs:
               with open('db_scan_results.json') as f:
                   data = json.load(f)
               
+              # Handle case where data might be wrapped in a dict or needs unwrapping
+              if isinstance(data, dict):
+                  # If data is a dict, extract the vulnerabilities list
+                  if 'vulnerabilities' in data:
+                      data = data['vulnerabilities']
+                  elif 'findings' in data:
+                      data = data['findings']
+                  else:
+                      data = list(data.values())
+              
+              # Ensure data is a list
+              if not isinstance(data, list):
+                  data = [data]
+              
+              # Filter to only process dict items (skip strings or other types)
+              valid_findings = [v for v in data if isinstance(v, dict)]
+              
               # Buscamos si alguna vulnerabilidad supera el umbral crítico de DREAD
               CRITICAL_THRESHOLD = 8.5
-              critical_findings = [v for v in data if v.get('dread_score', 0) >= CRITICAL_THRESHOLD]
+              critical_findings = [v for v in valid_findings if v.get('dread_score', 0) >= CRITICAL_THRESHOLD]
               
               if critical_findings:
                   print(f"\n[!] SECURITY GATE FAILED")
@@ -71,6 +88,9 @@ jobs:
               print("\n[+] Security Gate Passed: No critical DREAD scores found.")
           except FileNotFoundError:
               print("[-] No scan results found to analyze.")
+              sys.exit(1)
+          except json.JSONDecodeError as e:
+              print(f"[-] Error parsing JSON: {e}")
               sys.exit(1)
           PY
 
