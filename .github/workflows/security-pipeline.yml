@@ -46,8 +46,7 @@ jobs:
 
       - name: Run Multi-Scanner DAP
         run: |
-          # Ejecutamos tu scanner principal que ya integra Grype, OSV, etc.
-          python -m src.scanner --requirements requirements.txt --output report.json
+          python -m src.scanner --requirements requirements.txt --output-stem db_scan_results --output-formats json
 
       - name: DREAD Gate Keeper (Fail-Build Logic)
         run: |
